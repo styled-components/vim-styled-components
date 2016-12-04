@@ -5,7 +5,7 @@
 
 function! s:SelectStyledComponent()
   " find import line matching styled-components
-  let import_line = search("import.*from.*styled-components", 'nW')
+  let import_line = search("import.*from.*styled-components")
 
   " if there is such a line in the document
   if import_line > 0
