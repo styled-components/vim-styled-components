@@ -46,11 +46,13 @@ Run:
 Contributions are very welcome. 🙇
 
 Browse existing issues or create a new one [here](https://github.com/fleischie/vim-styled-components/issues).
+
 Submit pull requests [here](https://github.com/fleischie/vim-styled-components/pulls). This project uses the [git flow model](http://nvie.com/posts/a-successful-git-branching-model/) for development. Please base your feature branch on the develop branch and follow the code style convention used in the already existing files.
 
 ## Acknowledgements
 
 A huge thanks goes to Bram Moolenaar for authoring/maintaining [Vim](http://www.vim.org/).
+
 Lots of love to [Glen Maddern](https://twitter.com/glenmaddern) and [Max Stoiber](https://twitter.com/mxstbr) for creating [styled-components](http://styled-components.com).
 
 And of course [sylvainbannier](https://github.com/sylvainbannier) for the initial workaround [here](https://github.com/styled-components/styled-components/issues/257#issue-191586611).
