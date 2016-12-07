@@ -14,14 +14,54 @@ const rotate360 = keyframes`
 
 
 const StyledButton = styled.button`
-  background-color: papayawhip;
   color: palevioletred;
 
-  padding: 15px 20px 25px auto;
+  {/* border group */}
+  border-radius: 30px;
+  border-top-left-radius: 1px;
+  border-top-right-radius: 2px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 4px;
+  border-top-width: 1px;
+  border-bottom-width: 2px;
+  border-right-width: 3px;
+  border-left-width: 4px;
+  border-top-color: 5px;
+  border-bottom-color: 6px;
+  border-right-color: 7px;
+  border-left-color: 8px;
+  border-top-style: 9px;
+  border-bottom-style: 10px;
+  border-right-style: 11px;
+  border-left-style: 12px;
+
+  {/* UI group */}
+  box-sizing: content-box;
+  box-sizing: padding-box;
+  box-sizing: padding;
+  box-sizing: border;
+  box-sizing: border-box;
+
+  {/* spacing-box group */}
+  padding: 15em;
+  padding-left: 20px;
+  padding-right: 25rem;
   margin: 0;
+  margin-left: 20px;
+  margin-bottom: 1em;
 
   position: absolute;
-  background: ${props => props.image ? `url(${props.image})` : 'black'};
+
+  {/* background group */}
+  background: none;
+  background-attachment: initial;
+  background-clip: inherit;
+  background-color: papayawhip;
+  background-image: ${props => props.image ? `url(${props.image})` : 'initial'};
+  background-origin: ${props => props.background_origin};
+  background-position: bottom top center left right;
+  background-repeat: no-repeat;
+  background-size: cover;
 
   a[href|="away"] {
     text-decoration: none;
@@ -39,6 +79,13 @@ const StyledButton = styled.button`
   &:visited {
     & > img {
       visibility: hidden;
+    }
+
+    &::before {
+      background-color: rgba(0, 0, 0, 0.05);
+      top: -15px;
+      border: none;
+      display: block;
     }
 
     animation: ${rotate360} 2s linear infinite;
