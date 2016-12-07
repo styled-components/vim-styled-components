@@ -19,6 +19,14 @@ runtime! syntax/javascript.vim
 syntax include @CSS syntax/css.vim
 
 
+" fix incorrect padding and border issues
+syn match cssBoxProp contained "\<padding\(-\(top\|right\|bottom\|left\)\)\=\>"
+syn match cssBorderProp contained "\<border\(-\(top\|right\|bottom\|left\)\)\=\(-\(width\|color\|style\)\)\=\>"
+syn match cssBorderProp contained "\<border\(-\(top\|bottom\)-\(left\|right\)\)\=-radius\>"
+syn match cssBorderProp contained "\<border-image\(-\(outset\|repeat\|slice\|source\|width\)\)\=\>"
+syn match cssBorderProp contained "\<box-decoration-break\>"
+syn match cssBorderProp contained "\<box-shadow\>"
+
 " extend jsTemplateString syntax
 syntax region jsTemplateString
   \ start=+`+
