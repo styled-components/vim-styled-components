@@ -39,7 +39,7 @@ Install via:
 
 Run:
 
-    git clonse https://github.com/fleischie/vim-styled-components/ ~/.vim/bundle/vim-styled-components
+    git clone https://github.com/fleischie/vim-styled-components/ ~/.vim/bundle/vim-styled-components
 
 ## Contributing
 
