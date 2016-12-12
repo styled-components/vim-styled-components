@@ -16,6 +16,7 @@ endif
 
 " extend javascript syntax
 runtime! syntax/javascript.vim
+runtime! syntax/jsx.vim
 syntax include @CSS syntax/css.vim
 
 
