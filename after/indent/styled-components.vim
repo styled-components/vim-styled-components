@@ -3,99 +3,144 @@
 " Maintainer: Karl Fleischmann <fleischmann.karl@gmail.com>
 " URL:        https://github.com/fleischie/vim-styled-components
 
-if exists("b:did_indent")
-  finish
-endif
-let b:did_indent = 1
+" extend javascript and jsx indentation (if available but should)
+runtime! indent/javascript.vim
+runtime! indent/jsx.vim
 
+" store current indentexpr for later
+let b:js_jsx_indent=&indentexpr
 
+" set indentexpr for this filetype (styled-components)
 setlocal indentexpr=GetStyledIndent()
-setlocal indentkeys=0{,0},!^F,o,0
-setlocal nosmartindent
 
 
-let b:undo_indent = "setl smartindent< indentkeys< indentexpr<"
+" re-implement SynSOL of vim-jsx
+" TODO: add dependency to the readme and remove duplicate implementation
+fu! SynSOL(lnum)
+  return map(synstack(a:lnum, 1), 'synIDattr(v:val, "name")')
+endfu
+
+" re-implement SynEOL of vim-jsx
+" TODO: add dependency to the readme and remove duplicate implementation
+fu! SynEOL(lnum)
+  let lnum = prevnonblank(a:lnum)
+  let col = strlen(getline(lnum))
+  return map(synstack(lnum, col), 'synIDattr(v:val, "name")')
+endfu
 
 
-if exists("*GetStyledIndent")
-  finish
-endif
+"" Return whether the current line is a jsTemplateString
+fu! IsTemplateString(lnum)
+  " iterate through all syntax items in the given line
+  for item in SynSOL(a:lnum)
+    " if syntax-item is a jsTemplateString return 1 - true
+    " `==#` is a match case comparison of the item
+    if item ==# 'jsTemplateString'
+      return 1
+    endif
+  endfor
+
+  " fallback to 0 - false
+  return 0
+endfu
+
+"" Return whether the current line contains a css-element
+fu! ContainsCSS(lnum)
+  " iterate through all syntax items in the given line
+  for item in SynEOL(a:lnum)
+    " if syntax-item starts with a css item return 1 - true
+    if item =~ '^css'
+      return 1
+    endif
+  endfor
+
+  " fallback to 0 - false
+  return 0
+endfu
+
+"" Count occurences of `str` at the beginning of the given `lnum` line
+fu! CountOccurencesInSOL(lnum, str)
+  let occurence = 0
+
+  " iterate through all items in the given line
+  for item in SynSOL(a:lnum)
+    " if the syntax-item equals the given str increment the counter
+    " `==?` is a case isensitive equal operation
+    if item ==? a:str
+      let occurence += 1
+    endif
+  endfor
+
+  " return the accumulated count of occurences
+  return occurence
+endfu
+
+"" Count occurences of `str` at the end of the given `lnum` line
+fu! CountOccurencesInEOL(lnum, str)
+  let occurence = 0
+
+  " iterate through all items in the given line
+  for item in SynEOL(a:lnum)
+    " if the syntax-item equals the given str increment the counter
+    " `==?` is a case insensitive equal operation
+    if item == a:str
+      let occurence += 1
+    endif
+  endfor
+
+  " return the accumulated count of occurences
+  return occurence
+endfu
 
 
-" store character flags
-let s:keepcpo = &cpo
-set cpo&vim
+"" Get the indentation of the current line
+"
+" The general workflow is the following:
+" 1. Indent the jsTemplateString
+" 2. Indent the open cssDefinitions
+" 3. Un-indent closed cssDefinitions
+" 4. Un-indent jsTemplateString, if no CSS definitions are present
+"
+" TODO: css pseudo definitions (e.g. &::active) aren't correctly classified
+"       via the syntax-detection as cssDefinition (but as cssAttrRegion). Thus
+"       the indentation for these definitions is not working correctly, yet.
+fu! GetStyledIndent()
+  let indent = 0
 
+  " indent CSS definitions only if inside a jsTemplateString
+  if IsTemplateString(v:lnum)
+    " indent one level for the jsTemplateString
+    let indent += &sw
 
-function s:prevnonblanknoncomment(lnum)
-  let lnum = a:lnum
+    " get occurences of cssDefinition at begining/end of current line
+    let startDef = CountOccurencesInSOL(v:lnum, "cssDefinition")
+    let endDef = CountOccurencesInEOL(v:lnum, "cssDefinition")
 
-  while lnum > 1
-    let lnum = prevnonblank(lnum)
-    let line = getline(lnum)
+    " indent the number of current cssDefinitions
+    let indent += startDef * &sw
 
-    if line =~ '\*/'
-      while lnum > 1 && line !~ '/\*'
-        let lnum -= 1
-      endwhile
+    " un-indent one level, if the open cssDefinition is closed by the end of
+    " the line
+    if startDef > endDef
+      let indent -= &sw
+    endif
 
-      if line =~ '^\s*/\*'
-        let lnum -= 1
-      else
-        break
-      endif
+    " un-indent one level, if the jsTemplateString contains no CSS definitions
+    if !ContainsCSS(v:lnum)
+      let indent -= &sw
+    endif
+  else
+    " indent with the previously stored indentexpr
+    " this is either GetJavascriptIndentation or GetJsxIndentation depending
+    " on the available plugins
+    if len(b:js_jsx_indent)
+      let indent = eval(b:js_jsx_indent)
     else
-      break
+      " if all else fails indent according to C-syntax
+      let indent = cindent(v:lnum)
     endif
-  endwhile
-
-  return lnum
-endfunction
-
-
-function s:count_braces(lnum, count_open)
-  let n_open = 0
-  let n_close = 0
-  let line = getline(a:lnum)
-  let pattern = '[{}]'
-  let i = match(line, pattern)
-
-  while i != -1
-    if synIDattr(synID(a:lnum, i + 1, 0), 'name') !~ 'css\%(Comment\|StringQ\{1,2}\)'
-      if line[i] == '{'
-        let n_open += 1
-      elseif line[i] == '}'
-        if n_open > 0
-          let n_open -= 1
-        else
-          let n_close += 1
-        endif
-      endif
-    endif
-
-    let i = match(line, pattern, i + 1)
-  endwhile
-
-  return a:count_open ? n_open : n_close
-endfunction
-
-
-function GetStyledIndent()
-  let line = getline(v:lnum)
-  if line =~ '^\s*\*'
-    return cindent(v:lnum)
   endif
 
-  let pnum = s:prevnonblanknoncomment(v:lnum - 1)
-  if pnum == 0
-    return 0
-  endif
-
-  return indent(pnum) + s:count_braces(pnum, 1) * &sw
-        \ - s:count_braces(v:lnum, 0) * &sw
-endfunction
-
-
-" pop character flags
-let &cpo = s:keepcpo
-unlet s:keepcpo
+  " return indentation of the current line
+  return indent
+endfu
