@@ -16,3 +16,5 @@ endfunction
 
 autocmd BufNewFile,BufRead *.js  call s:SelectStyledComponent()
 autocmd BufNewFile,BufRead *.jsx call s:SelectStyledComponent()
+autocmd BufNewFile,BufRead *.ts  call s:SelectStyledComponent()
+autocmd BufNewFile,BufRead *.tsx call s:SelectStyledComponent()
