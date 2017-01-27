@@ -6,6 +6,7 @@
 " extend javascript and jsx indentation (if available but should)
 runtime! indent/javascript.vim
 runtime! indent/jsx.vim
+runtime! indent/typescript.vim
 
 " store current indentexpr for later
 let b:js_jsx_indent=&indentexpr
