@@ -63,6 +63,10 @@ const StyledButton = styled.button`
   background-repeat: no-repeat;
   background-size: cover;
 
+  {/* item alignments */}
+  justify-content: space-between;
+  align-items: flex-end;
+
   a[href|="away"] {
     text-decoration: none;
   }
