@@ -1,24 +1,19 @@
 " Vim syntax file
-" Language:   styled-components (JavaScript)
+" Language:   styled-components (js/ts)
 " Maintainer: Karl Fleischmann <fleischmann.karl@gmail.com>
 " URL:        https://github.com/fleischie/vim-styled-components
 
-if !exists("main_syntax")
-  if version < 600
-    syntax clear
-  elseif exists("b:current_syntax")
-    finish
-  endif
-
-  let main_syntax = "styled-components"
+if exists("b:current_syntax")
+  let s:current_syntax=b:current_syntax
+  unlet b:current_syntax
 endif
 
-
 " extend javascript syntax
-runtime! syntax/javascript.vim
-runtime! syntax/jsx.vim
-runtime! syntax/typescript.vim
 syntax include @CSS syntax/css.vim
+
+if exists("s:current_syntax")
+  let b:current_syntax=s:current_syntax
+endif
 
 
 " fix incorrect padding and border issues
@@ -70,9 +65,3 @@ syntax region jsTemplateString
   \            cssUnicodeRange,cssUnitDecorators,cssValueAngle,
   \            cssValueFrequency,cssValueInteger,cssValueLength,cssValueNumber,
   \            cssValueTime,cssVendor
-
-
-let b:current_syntax = "javascript"
-if main_syntax == "styled-components"
-  unlet main_syntax
-endif
