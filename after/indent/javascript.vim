@@ -1,15 +1,10 @@
 " Vim syntax file
-" Language:   styled-components (JavaScript)
+" Language:   styled-components (js/ts)
 " Maintainer: Karl Fleischmann <fleischmann.karl@gmail.com>
 " URL:        https://github.com/fleischie/vim-styled-components
 
-" extend javascript and jsx indentation (if available but should)
-runtime! indent/javascript.vim
-runtime! indent/jsx.vim
-runtime! indent/typescript.vim
-
 " store current indentexpr for later
-let b:js_jsx_indent=&indentexpr
+let b:js_ts_indent=&indentexpr
 
 " set indentexpr for this filetype (styled-components)
 setlocal indentexpr=GetStyledIndent()
@@ -134,8 +129,8 @@ fu! GetStyledIndent()
     " indent with the previously stored indentexpr
     " this is either GetJavascriptIndentation or GetJsxIndentation depending
     " on the available plugins
-    if len(b:js_jsx_indent)
-      let indent = eval(b:js_jsx_indent)
+    if len(b:js_ts_indent)
+      let indent = eval(b:js_ts_indent)
     else
       " if all else fails indent according to C-syntax
       let indent = cindent(v:lnum)
