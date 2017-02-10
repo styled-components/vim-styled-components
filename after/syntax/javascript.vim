@@ -16,52 +16,59 @@ if exists("s:current_syntax")
 endif
 
 
-" fix incorrect padding and border issues
-syn match cssBoxProp contained "\<padding\(-\(top\|right\|bottom\|left\)\)\=\>"
-syn match cssBorderProp contained "\<border\(-\(top\|right\|bottom\|left\)\)\=\(-\(width\|color\|style\)\)\=\>"
-syn match cssBorderProp contained "\<border\(-\(top\|bottom\)-\(left\|right\)\)\=-radius\>"
-syn match cssBorderProp contained "\<border-image\(-\(outset\|repeat\|slice\|source\|width\)\)\=\>"
-syn match cssBorderProp contained "\<box-decoration-break\>"
-syn match cssBorderProp contained "\<box-shadow\>"
+" find import line matching styled-components
+let import_line = search("import.*from.*styled-components")
+let require_line = search("require.*styled-components")
 
-" extend jsTemplateString syntax
-syntax region jsTemplateString
-  \ start=+`+
-  \ skip=+\\\(`\|$\)+
-  \ end=+`+
-  \ extend
-  \ contains = cssAnimation,cssAnimationAttr,cssAnimationProp,
-  \            cssAttr,cssAttrComma,cssAttrRegion,cssAttributeSelector,
-  \            cssAuralAttr,cssAuralProp,cssBackgroundAttr,cssBackgroundProp,
-  \            cssBorderAttr,cssBorderProp,cssBoxAttr,cssBoxProp,cssBraces,
-  \            cssClassName,cssClassNameDot,cssColor,cssColorProp,cssComma,
-  \            cssComment,cssCommonAttr,cssContentForPagedMediaAttr,
-  \            cssContentForPagedMediaProp,cssDefinition,cssDeprecated,
-  \            cssDimensionAttr,cssDimensionProp,cssError,cssFlexibleBoxAttr,
-  \            cssFlexibleBoxProp,cssFontAttr,cssFontDescriptor,
-  \            cssFontDescriptorAttr,cssFontDescriptorBlock,
-  \            cssFontDescriptorFunction,cssFontDescriptorProp,cssFontProp,
-  \            cssFunction,cssFunctionComma,cssFunctionName,
-  \            cssGeneratedContentAttr,cssGeneratedContentProp,cssGradientAttr,
-  \            cssGridAttr,cssGridProp,cssHacks,cssHyerlinkAttr,
-  \            cssHyerlinkProp,cssIEUIAttr,cssIEUIProp,cssIdentifier,
-  \            cssImportant,cssInclude,cssIncludeKeyword,cssKeyFrame,
-  \            cssKeyFrameSelector,cssKeyFrameWrap,cssLineboxAttr,
-  \            cssLineboxProp,cssListAttr,cssListProp,cssMarginAttr,
-  \            cssMarqueeAttr,cssMarqueeProp,cssMedia,cssMediaAttr,
-  \            cssMediaBlock,cssMediaComma,cssMediaKeyword,cssMediaProp,
-  \            cssMediaType,cssMobileTextProp,cssMultiColumnAttr,
-  \            cssMultiColumnProp,cssNoise,cssPaddingAttr,cssPage,
-  \            cssPageMargin,cssPageProp,cssPagePseudo,cssPageWrap,
-  \            cssPagedMediaAttr,cssPagedMediaProp,cssPositioningAttr,
-  \            cssPositioningProp,cssPrintAttr,cssPrintProp,cssProp,
-  \            cssPseudoClass,cssPseudoClassFn,cssPseudoClassId,
-  \            cssPseudoClassLang,cssRenderAttr,cssRenderProp,cssRubyAttr,
-  \            cssRubyProp,cssSelectorOp,cssSelectorOp2,cssSpecialCharQ,
-  \            cssSpecialCharQQ,cssSpeechAttr,cssSpeechProp,cssStringQ,
-  \            cssStringQQ,cssTableAttr,cssTableProp,cssTagName,cssTextAttr,
-  \            cssTextProp,cssTransformAttr,cssTransformProp,cssTransitionAttr,
-  \            cssTransitionProp,cssUIAttr,cssUIProp,cssURL,cssUnicodeEscape,
-  \            cssUnicodeRange,cssUnitDecorators,cssValueAngle,
-  \            cssValueFrequency,cssValueInteger,cssValueLength,cssValueNumber,
-  \            cssValueTime,cssVendor
+" if there is such a line in the document
+if import_line > 0 || require_line > 0
+  " fix incorrect padding and border issues
+  syn match cssBoxProp contained "\<padding\(-\(top\|right\|bottom\|left\)\)\=\>"
+  syn match cssBorderProp contained "\<border\(-\(top\|right\|bottom\|left\)\)\=\(-\(width\|color\|style\)\)\=\>"
+  syn match cssBorderProp contained "\<border\(-\(top\|bottom\)-\(left\|right\)\)\=-radius\>"
+  syn match cssBorderProp contained "\<border-image\(-\(outset\|repeat\|slice\|source\|width\)\)\=\>"
+  syn match cssBorderProp contained "\<box-decoration-break\>"
+  syn match cssBorderProp contained "\<box-shadow\>"
+
+  " extend jsTemplateString syntax
+  syntax region jsTemplateString
+    \ start=+`+
+    \ skip=+\\\(`\|$\)+
+    \ end=+`+
+    \ extend
+    \ contains = cssAnimation,cssAnimationAttr,cssAnimationProp,
+    \            cssAttr,cssAttrComma,cssAttrRegion,cssAttributeSelector,
+    \            cssAuralAttr,cssAuralProp,cssBackgroundAttr,cssBackgroundProp,
+    \            cssBorderAttr,cssBorderProp,cssBoxAttr,cssBoxProp,cssBraces,
+    \            cssClassName,cssClassNameDot,cssColor,cssColorProp,cssComma,
+    \            cssComment,cssCommonAttr,cssContentForPagedMediaAttr,
+    \            cssContentForPagedMediaProp,cssDefinition,cssDeprecated,
+    \            cssDimensionAttr,cssDimensionProp,cssError,cssFlexibleBoxAttr,
+    \            cssFlexibleBoxProp,cssFontAttr,cssFontDescriptor,
+    \            cssFontDescriptorAttr,cssFontDescriptorBlock,
+    \            cssFontDescriptorFunction,cssFontDescriptorProp,cssFontProp,
+    \            cssFunction,cssFunctionComma,cssFunctionName,
+    \            cssGeneratedContentAttr,cssGeneratedContentProp,cssGradientAttr,
+    \            cssGridAttr,cssGridProp,cssHacks,cssHyerlinkAttr,
+    \            cssHyerlinkProp,cssIEUIAttr,cssIEUIProp,cssIdentifier,
+    \            cssImportant,cssInclude,cssIncludeKeyword,cssKeyFrame,
+    \            cssKeyFrameSelector,cssKeyFrameWrap,cssLineboxAttr,
+    \            cssLineboxProp,cssListAttr,cssListProp,cssMarginAttr,
+    \            cssMarqueeAttr,cssMarqueeProp,cssMedia,cssMediaAttr,
+    \            cssMediaBlock,cssMediaComma,cssMediaKeyword,cssMediaProp,
+    \            cssMediaType,cssMobileTextProp,cssMultiColumnAttr,
+    \            cssMultiColumnProp,cssNoise,cssPaddingAttr,cssPage,
+    \            cssPageMargin,cssPageProp,cssPagePseudo,cssPageWrap,
+    \            cssPagedMediaAttr,cssPagedMediaProp,cssPositioningAttr,
+    \            cssPositioningProp,cssPrintAttr,cssPrintProp,cssProp,
+    \            cssPseudoClass,cssPseudoClassFn,cssPseudoClassId,
+    \            cssPseudoClassLang,cssRenderAttr,cssRenderProp,cssRubyAttr,
+    \            cssRubyProp,cssSelectorOp,cssSelectorOp2,cssSpecialCharQ,
+    \            cssSpecialCharQQ,cssSpeechAttr,cssSpeechProp,cssStringQ,
+    \            cssStringQQ,cssTableAttr,cssTableProp,cssTagName,cssTextAttr,
+    \            cssTextProp,cssTransformAttr,cssTransformProp,cssTransitionAttr,
+    \            cssTransitionProp,cssUIAttr,cssUIProp,cssURL,cssUnicodeEscape,
+    \            cssUnicodeRange,cssUnitDecorators,cssValueAngle,
+    \            cssValueFrequency,cssValueInteger,cssValueLength,cssValueNumber,
+    \            cssValueTime,cssVendor
+endif
