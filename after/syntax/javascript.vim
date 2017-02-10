@@ -18,9 +18,10 @@ endif
 
 " find import line matching styled-components
 let import_line = search("import.*from.*styled-components")
+let require_line = search("require.*styled-components")
 
 " if there is such a line in the document
-if import_line > 0
+if import_line > 0 || require_line > 0
   " fix incorrect padding and border issues
   syn match cssBoxProp contained "\<padding\(-\(top\|right\|bottom\|left\)\)\=\>"
   syn match cssBorderProp contained "\<border\(-\(top\|right\|bottom\|left\)\)\=\(-\(width\|color\|style\)\)\=\>"
