@@ -76,7 +76,7 @@ const StyledButton = styled.button`
     content: '';
   }
 
-  {/* fun fact: this file is only for example purposes*/}
+  {/* fun fact: this file is only for example purposes */}
   &:active,
   &:focus,
   &:hover,
@@ -85,7 +85,8 @@ const StyledButton = styled.button`
       visibility: hidden;
     }
 
-    &::before {
+    &::before,
+    &::after {
       background-color: rgba(0, 0, 0, 0.05);
       top: -15px;
       border: none;
@@ -93,6 +94,14 @@ const StyledButton = styled.button`
     }
 
     animation: ${rotate360} 2s linear infinite;
+  }
+
+  main {
+    article {
+      section {
+        padding: 15em;
+      }
+    }
   }
 `;
 
