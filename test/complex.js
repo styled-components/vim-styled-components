@@ -6,7 +6,7 @@
  * https://github.com/chili-epfl/FROG/blob/14ed63ab5a267fa5b7d677965ad03af80c969a4e/frog/imports/ui/svg/index.js
  *
  * @flow
- */ 
+ */
 import React, { Component } from 'react';
 import { Provider } from 'mobx-react';
 import Form from 'react-jsonschema-form';
