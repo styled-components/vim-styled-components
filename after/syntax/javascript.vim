@@ -66,6 +66,10 @@ if import_line > 0 || require_line > 0
   syn match cssBorderProp contained "\<box-decoration-break\>"
   syn match cssBorderProp contained "\<box-shadow\>"
 
+  " allow additional CSS in cssDefinitions
+  syn region cssDefinition matchgroup=cssBraces start=+{+ end=+}+
+        \ contained transparent fold contains=@CSS
+
   " extend jsTemplateString syntax
   syntax region jsTemplateString start=+`+ skip=+\\\(`\|$\)+ end=+`+
         \ extend transparent fold contains=@CSS
