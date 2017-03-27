@@ -53,8 +53,8 @@ endif
 
 
 " find import line matching styled-components
-let import_line = search("import.*from.*styled-components")
-let require_line = search("require.*styled-components")
+let import_line = search("import.*from.*styled-components", 'n')
+let require_line = search("require.*styled-components", 'n')
 
 " if there is such a line in the document
 if import_line > 0 || require_line > 0
