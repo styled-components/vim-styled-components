@@ -60,7 +60,9 @@ let require_line = search("require.*styled-components", 'n')
 " if there is such a line in the document
 if import_line > 0 || require_line > 0
   " allow additional CSS in cssDefinitions
-  syn region cssDefinition matchgroup=cssBraces start=+{+ end=+}+
+  "   `[^$]` skips "${", so that js template expressions are not considered
+  "   cssDefinitions and thus do not contain CSS definitions
+  syn region cssDefinition matchgroup=cssBraces start=+[^$]{+ end=+}+
         \ contained transparent fold contains=@CSS
 
   " extend jsTemplateString syntax
