@@ -2,6 +2,10 @@
 
 Vim bundle for [styled-components](http://styled-components.com) based javascript files.
 
+This plugin checks, whether the current buffer contains an `import` or a `require` from `styled-components` and injects CSS rules into JS template strings.
+
+Note however, that this plugin does not provide its own CSS rules. You should have an up to date vim runtime (for CSS2 rules) and - as long as CSS3 rules are not included - an additional plugin for CSS3 rules. (I recommend [hail2u/vim-css3-syntax](https://github.com/hail2u/vim-css3-syntax) but feel free to use whatever you like.)
+
 ## Table of Contents
 
 - [Installation](#installation)

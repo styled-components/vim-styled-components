@@ -9,7 +9,8 @@ if exists("b:current_syntax")
 endif
 
 " extend javascript syntax
-syntax include @CSS syntax/css.vim
+runtime! syntax/css.vim
+runtime! syntax/css/*.vim
 syntax cluster CSS
       \ contains=cssAnimation,cssAnimationAttr,cssAnimationProp,cssAttr,
       \          cssAttrComma,cssAttributeSelector,cssAuralAttr,
@@ -58,16 +59,10 @@ let require_line = search("require.*styled-components", 'n')
 
 " if there is such a line in the document
 if import_line > 0 || require_line > 0
-  " fix incorrect padding and border issues
-  syn match cssBoxProp contained "\<padding\(-\(top\|right\|bottom\|left\)\)\=\>"
-  syn match cssBorderProp contained "\<border\(-\(top\|right\|bottom\|left\)\)\=\(-\(width\|color\|style\)\)\=\>"
-  syn match cssBorderProp contained "\<border\(-\(top\|bottom\)-\(left\|right\)\)\=-radius\>"
-  syn match cssBorderProp contained "\<border-image\(-\(outset\|repeat\|slice\|source\|width\)\)\=\>"
-  syn match cssBorderProp contained "\<box-decoration-break\>"
-  syn match cssBorderProp contained "\<box-shadow\>"
-
   " allow additional CSS in cssDefinitions
-  syn region cssDefinition matchgroup=cssBraces start=+{+ end=+}+
+  "   `[^$]` skips "${", so that js template expressions are not considered
+  "   cssDefinitions and thus do not contain CSS definitions
+  syn region cssDefinition matchgroup=cssBraces start=+[^$]{+ end=+}+
         \ contained transparent fold contains=@CSS
 
   " extend jsTemplateString syntax
