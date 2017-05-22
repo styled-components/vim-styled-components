@@ -10,51 +10,55 @@ endif
 
 
 " find import line matching styled-components
-let import_line = search("import.*from.*styled-components", 'n')
-let require_line = search("require.*styled-components", 'n')
+let sc_import_line = search("import.*from.*styled-components", 'n')
+let sc_require_line = search("require.*styled-components", 'n')
+let dc_import_line = search("import.*from.*diet-cola", 'n')
+let dc_require_line = search("require.*diet-cola", 'n')
 
 " if there is such a line in the document
-if import_line > 0 || require_line > 0
+if sc_import_line > 0 || sc_require_line > 0 ||
+      \ dc_import_line > 0 || dc_require_line > 0
 
-" extend javascript syntax
-runtime! syntax/css.vim
-runtime! syntax/css/*.vim
-syntax cluster CSS
-      \ contains=cssAnimation,cssAnimationAttr,cssAnimationProp,cssAttr,
-      \          cssAttrComma,cssAttributeSelector,cssAuralAttr,
-      \          cssAuralProp,cssBackgroundAttr,cssBackgroundProp,
-      \          cssBorderAttr,cssBorderProp,cssBoxAttr,cssBoxProp,cssBraces,
-      \          cssClassName,cssClassNameDot,cssColor,cssColorProp,cssComma,
-      \          cssComment,cssCommonAttr,cssContentForPagedMediaAttr,
-      \          cssContentForPagedMediaProp,cssDefinition,cssDeprecated,
-      \          cssDimensionAttr,cssDimensionProp,cssError,cssFlexibleBoxAttr,
-      \          cssFlexibleBoxProp,cssFontAttr,cssFontDescriptor,
-      \          cssFontDescriptorAttr,cssFontDescriptorBlock,
-      \          cssFontDescriptorFunction,cssFontDescriptorProp,cssFontProp,
-      \          cssFunction,cssFunctionComma,cssFunctionName,
-      \          cssGeneratedContentAttr,cssGeneratedContentProp,
-      \          cssGradientAttr,cssGridAttr,cssGridProp,cssHacks,
-      \          cssHyerlinkAttr,cssHyerlinkProp,cssIEUIAttr,cssIEUIProp,
-      \          cssIdentifier,cssImportant,cssInclude,cssIncludeKeyword,
-      \          cssKeyFrame,cssKeyFrameSelector,cssKeyFrameWrap,
-      \          cssLineboxAttr,cssLineboxProp,cssListAttr,cssListProp,
-      \          cssMarginAttr,cssMarqueeAttr,cssMarqueeProp,cssMedia,
-      \          cssMediaAttr,cssMediaBlock,cssMediaComma,cssMediaKeyword,
-      \          cssMediaProp,cssMediaType,cssMobileTextProp,
-      \          cssMultiColumnAttr,cssMultiColumnProp,cssNoise,cssPaddingAttr,
-      \          cssPage,cssPageMargin,cssPageProp,cssPagePseudo,cssPageWrap,
-      \          cssPagedMediaAttr,cssPagedMediaProp,cssPositioningAttr,
-      \          cssPositioningProp,cssPrintAttr,cssPrintProp,cssProp,
-      \          cssPseudoClass,cssPseudoClassFn,cssPseudoClassId,
-      \          cssPseudoClassLang,cssRenderAttr,cssRenderProp,cssRubyAttr,
-      \          cssRubyProp,cssSelectorOp,cssSelectorOp2,cssSpecialCharQ,
-      \          cssSpecialCharQQ,cssSpeechAttr,cssSpeechProp,cssStringQ,
-      \          cssStringQQ,cssTableAttr,cssTableProp,cssTagName,cssTextAttr,
-      \          cssTextProp,cssTransformAttr,cssTransformProp,
-      \          cssTransitionAttr,cssTransitionProp,cssUIAttr,cssUIProp,
-      \          cssURL,cssUnicodeEscape,cssUnicodeRange,cssUnitDecorators,
-      \          cssValueAngle,cssValueFrequency,cssValueInteger,
-      \          cssValueLength,cssValueNumber,cssValueTime,cssVendor
+  " extend javascript syntax
+  runtime! syntax/css.vim
+  runtime! syntax/css/*.vim
+  syntax cluster CSS
+        \ contains=cssAnimation,cssAnimationAttr,cssAnimationProp,cssAttr,
+        \          cssAttrComma,cssAttributeSelector,cssAuralAttr,
+        \          cssAuralProp,cssBackgroundAttr,cssBackgroundProp,
+        \          cssBorderAttr,cssBorderProp,cssBoxAttr,cssBoxProp,cssBraces,
+        \          cssClassName,cssClassNameDot,cssColor,cssColorProp,cssComma,
+        \          cssComment,cssCommonAttr,cssContentForPagedMediaAttr,
+        \          cssContentForPagedMediaProp,cssDefinition,cssDeprecated,
+        \          cssDimensionAttr,cssDimensionProp,cssError,
+        \          cssFlexibleBoxAttr,cssFlexibleBoxProp,cssFontAttr,
+        \          cssFontDescriptor,cssFontDescriptorAttr,
+        \          cssFontDescriptorBlock,cssFontDescriptorFunction,
+        \          cssFontDescriptorProp,cssFontProp,cssFunction,
+        \          cssFunctionComma,cssFunctionName,cssGeneratedContentAttr,
+        \          cssGeneratedContentProp,cssGradientAttr,cssGridAttr,
+        \          cssGridProp,cssHacks,cssHyerlinkAttr,cssHyerlinkProp,
+        \          cssIEUIAttr,cssIEUIProp,cssIdentifier,cssImportant,
+        \          cssInclude,cssIncludeKeyword,cssKeyFrame,
+        \          cssKeyFrameSelector,cssKeyFrameWrap,cssLineboxAttr,
+        \          cssLineboxProp,cssListAttr,cssListProp,cssMarginAttr,
+        \          cssMarqueeAttr,cssMarqueeProp,cssMedia,cssMediaAttr,
+        \          cssMediaBlock,cssMediaComma,cssMediaKeyword,cssMediaProp,
+        \          cssMediaType,cssMobileTextProp,cssMultiColumnAttr,
+        \          cssMultiColumnProp,cssNoise,cssPaddingAttr,cssPage,
+        \          cssPageMargin,cssPageProp,cssPagePseudo,cssPageWrap,
+        \          cssPagedMediaAttr,cssPagedMediaProp,cssPositioningAttr,
+        \          cssPositioningProp,cssPrintAttr,cssPrintProp,cssProp,
+        \          cssPseudoClass,cssPseudoClassFn,cssPseudoClassId,
+        \          cssPseudoClassLang,cssRenderAttr,cssRenderProp,cssRubyAttr,
+        \          cssRubyProp,cssSelectorOp,cssSelectorOp2,cssSpecialCharQ,
+        \          cssSpecialCharQQ,cssSpeechAttr,cssSpeechProp,cssStringQ,
+        \          cssStringQQ,cssTableAttr,cssTableProp,cssTagName,
+        \          cssTextAttr,cssTextProp,cssTransformAttr,cssTransformProp,
+        \          cssTransitionAttr,cssTransitionProp,cssUIAttr,cssUIProp,
+        \          cssURL,cssUnicodeEscape,cssUnicodeRange,cssUnitDecorators,
+        \          cssValueAngle,cssValueFrequency,cssValueInteger,
+        \          cssValueLength,cssValueNumber,cssValueTime,cssVend
 
   " allow additional CSS in cssDefinitions
   "   `[^$]` skips "${", so that js template expressions are not considered
