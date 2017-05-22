@@ -106,4 +106,21 @@ const StyledButton = styled.button`
 `;
 
 
+// check API of v2
+// https://github.com/fleischie/vim-styled-components/issues/16
+const Comp = styled.div`color: palevioletred`;
+const NewComp1 = Comp.extend`
+  color: papayawhip;
+`;
+const NewComp2 = Comp.extendWith('span')`
+  color: lightsalmon;
+`;
+
+const Link = styled.a.attrs({
+  target: '_blank',
+})`
+  color: tomato;
+`;
+
+
 export default StyledButton;
