@@ -1,8 +1,8 @@
 # vim-styled-components
 
-Vim bundle for [styled-components](https://styled-components.com) and [diet-cola](https://github.com/jxnblk/diet-cola) based javascript files.
+Vim bundle for [styled-components](https://styled-components.com), [diet-cola](https://github.com/jxnblk/diet-cola) and experimental [glamor/styled](https://github.com/threepointone/glamor/blob/master/docs/styled.md) based javascript files.
 
-This plugin checks, whether the current buffer contains an `import` or a `require` from `styled-components` or `diet-cola` and injects CSS rules into JS template strings.
+This plugin checks, whether the current buffer contains an `import` or a `require` from `styled-components`, `diet-cola` or `glamor/styled` and injects CSS rules into JS template strings.
 
 Note however, that this plugin does not provide its own CSS rules. You should have an up to date vim runtime (for CSS2 rules) and - as long as CSS3 rules are not included - an additional plugin for CSS3 rules. (I recommend [hail2u/vim-css3-syntax](https://github.com/hail2u/vim-css3-syntax) but feel free to use whatever you like.)
 
