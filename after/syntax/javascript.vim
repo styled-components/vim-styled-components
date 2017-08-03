@@ -33,6 +33,7 @@ if sc_import_line > 0 || sc_require_line > 0 ||
         \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
         \          cssError,cssAttrComma,cssNoise
 
+  " re-define CSS cluster (mainly to omit cssAttrRegion)
   syntax cluster CSS
         \ contains=cssAnimation,cssAnimationAttr,cssAnimationProp,cssAttr,
         \          cssAttrComma,cssAttributeSelector,cssAuralAttr,
