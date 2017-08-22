@@ -16,11 +16,14 @@ let dc_import_line = search('import\(.\|\n\)*from.*diet-cola', 'n')
 let dc_require_line = search('require\(.\|\n\)*diet-cola', 'n')
 let gl_import_line = search('import\(.\|\n\)*from.*glamor\/styled', 'n')
 let gl_require_line = search('require\(.\|\n\)*glamor\/styled', 'n')
+let em_import_line = search('import\(.\|\n\)*from.*emotion', 'n')
+let em_require_line = search('require\(.\|\n\)*emotion', 'n')
 
 " if there is such a line in the document
 if sc_import_line > 0 || sc_require_line > 0 ||
       \ dc_import_line > 0 || dc_require_line > 0 ||
-      \ gl_import_line > 0 || gl_require_line > 0
+      \ gl_import_line > 0 || gl_require_line > 0 ||
+      \ em_import_line > 0 || em_require_line > 0
 
   " extend javascript syntax
   runtime! syntax/css.vim
