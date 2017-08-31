@@ -21,7 +21,7 @@ See the documentation for the specific vim package manager for details on how to
 
 Add to vimrc:
 
-    Plugin 'fleischie/vim-styled-components'
+    Plugin 'styled-components/vim-styled-components'
 
 Install via:
 
@@ -32,7 +32,7 @@ Install via:
 
 Add to vimrc:
 
-    Plug 'fleischie/vim-styled-components'
+    Plug 'styled-components/vim-styled-components'
 
 Install via:
 
@@ -43,15 +43,15 @@ Install via:
 
 Run:
 
-    git clone https://github.com/fleischie/vim-styled-components/ ~/.vim/bundle/vim-styled-components
+    git clone https://github.com/styled-components/vim-styled-components/ ~/.vim/bundle/vim-styled-components
 
 ## Contributing
 
 Contributions are very welcome. 🙇
 
-Browse existing issues or create a new one [here](https://github.com/fleischie/vim-styled-components/issues).
+Browse existing issues or create a new one [here](https://github.com/styled-components/vim-styled-components/issues).
 
-Submit pull requests [here](https://github.com/fleischie/vim-styled-components/pulls). This project uses the [git flow model](http://nvie.com/posts/a-successful-git-branching-model/) for development. Please base your feature branch on the develop branch and follow the code style convention used in the already existing files.
+Submit pull requests [here](https://github.com/styled-components/vim-styled-components/pulls). This project uses the [git flow model](http://nvie.com/posts/a-successful-git-branching-model/) for development. Please base your feature branch on the develop branch and follow the code style convention used in the already existing files.
 
 ## Acknowledgements
 
