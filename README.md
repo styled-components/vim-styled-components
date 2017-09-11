@@ -6,6 +6,10 @@ This plugin checks, whether the current buffer contains an `import` or a `requir
 
 Note however, that this plugin does not provide its own CSS rules. You should have an up to date vim runtime (for CSS2 rules) and - as long as CSS3 rules are not included - an additional plugin for CSS3 rules. (I recommend [hail2u/vim-css3-syntax](https://github.com/hail2u/vim-css3-syntax) but feel free to use whatever you like.)
 
+**Note:** This plugin won't change the syntax if you start with an empty buffer and then add styled-components code, you will need to close the buffer and re-open it so that the styles apply.
+
+A quick way to do that is with this command: `:edit!` which will do exactly that. You can map that to a shortcut if you wish.
+
 ## Table of Contents
 
 - [Installation](#installation)
