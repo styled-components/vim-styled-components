@@ -20,6 +20,16 @@ if v:version >= 700
   endtry
 endif
 
+" TODO: define custom cssAttrRegion to not include cssPseudoClassId
+syn region customCssAttrRegion start=":" end="\ze\(,\|;\|)\|{\|}\)" contained
+      \ contains=css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,
+      \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
+      \          cssError,cssAttrComma,cssNoise
+syn region customCssAttrRegion start="transition\s*:" end="\ze\(;\|)\|{\|}\)"
+      \ contained
+      \ contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,
+      \          cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,
+      \          cssVendor,cssError,cssAttrComma,cssNoise
 
 " define all non-contained css definitions
 syn cluster CSSTop
