@@ -81,7 +81,7 @@ const StyledButton = styled.button`
   a[href|="away"] {}
 
   img::before,
-  img::after {} 
+  img::after {}
 
   .class-def {}
   #identifier-def {}
@@ -120,7 +120,7 @@ const StyledButton = styled.button`
 
   {/* include keywords */}
   @media only screen and (min-width: 768cm) {}
-  @page {} 
+  @page {}
 `;
 
 

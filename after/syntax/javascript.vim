@@ -43,6 +43,10 @@ syn cluster CSSTop
       \          cssInclude,cssFontDescriptor,cssAttrComma,cssPseudoClass,
       \          cssUnicodeEscape
 
+" custom highlights for styled components
+"   - "&" inside top level
+syn match styledAmpersand contained "&"
+
 " TODO: define custom styled definition regions
 "       styled-components
 "         styled.*` -> `
@@ -70,13 +74,16 @@ syn region styledDefinition transparent matchgroup=styledTemplate
       \ start="dc(.\+)(`"
       \ end="`" skip="\\\(`\|$\)"
       \ contains=@CSSTop,
+      \          styledAmpersand,
       \          css.*Prop,cssValue.*,cssColor,cssUrl,cssImportant,cssError,
       \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
       \          cssHacks,customCssAttrRegion
 
-" TODO: special case for "&" as it is special in styled-components
-" TODO: comments -> {/* */} not in-file explaination comments
 " TODO: add nesting for styledDefinition -> really?
+" TODO: comments -> {/* */} not in-file explaination comments
+
+" color the custom highlight elements
+hi def link styledAmpersand Special
 
 
 if exists("s:current_syntax")
