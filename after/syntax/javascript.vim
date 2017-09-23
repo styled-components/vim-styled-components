@@ -29,12 +29,14 @@ endif
 syn region customCssAttrRegion start=":" end="\ze\(,\|;\|)\|{\|}\)" contained
       \ contains=css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,
       \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
-      \          cssError,cssAttrComma,cssNoise,cssPseudoClassId
+      \          cssError,cssAttrComma,cssNoise,cssPseudoClassId,
+      \          jsTemplateExpression
 syn region customCssAttrRegion start="transition\s*:" end="\ze\(;\|)\|{\|}\)"
       \ contained
       \ contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,
       \          cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,
-      \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId
+      \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId,
+      \          jsTemplateExpression
 
 " define all non-contained css definitions
 syn cluster CSSTop
