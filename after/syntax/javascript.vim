@@ -8,6 +8,7 @@ if exists("b:current_syntax")
   unlet b:current_syntax
 endif
 
+
 " introduce CSS cluster from built-in (or single third party syntax file)
 syn include @CSS syntax/css.vim
 
@@ -20,16 +21,20 @@ if v:version >= 700
   endtry
 endif
 
-" TODO: define custom cssAttrRegion to not include cssPseudoClassId
+" define custom cssAttrRegion
+"   a) add "," and "{" to the end characters
+"   b) add "cssPseudoClassId" to it's containing elements
+"      this will incorrectly highlight pseudo elements incorrectly used as
+"      attributes but correctly highlight actual attributes
 syn region customCssAttrRegion start=":" end="\ze\(,\|;\|)\|{\|}\)" contained
       \ contains=css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,
       \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
-      \          cssError,cssAttrComma,cssNoise
+      \          cssError,cssAttrComma,cssNoise,cssPseudoClassId
 syn region customCssAttrRegion start="transition\s*:" end="\ze\(;\|)\|{\|}\)"
       \ contained
       \ contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,
       \          cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,
-      \          cssVendor,cssError,cssAttrComma,cssNoise
+      \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId
 
 " define all non-contained css definitions
 syn cluster CSSTop
@@ -69,12 +74,9 @@ syn region styledDefinition transparent matchgroup=styledTemplate
       \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
       \          cssHacks,customCssAttrRegion
 
-" TODO: define custom cssAttrRegion
-"       all, that does not begin with ":<cssPseudoClassId>"
 " TODO: special case for "&" as it is special in styled-components
-" TODO: add comments
-" TODO: add nesting for styledDefinition
-
+" TODO: comments -> {/* */} not in-file explaination comments
+" TODO: add nesting for styledDefinition -> really?
 
 
 if exists("s:current_syntax")
