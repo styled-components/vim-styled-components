@@ -47,7 +47,7 @@ syn cluster CSSTop
 
 " custom highlights for styled components
 "   - "&" inside top level
-syn match styledAmpersand contained "&"
+syn match  styledAmpersand contained "&"
 
 " TODO: define custom styled definition regions
 "       styled-components
@@ -76,13 +76,14 @@ syn region styledDefinition transparent matchgroup=styledTemplate
       \ start="dc(.\+)(`"
       \ end="`" skip="\\\(`\|$\)"
       \ contains=@CSSTop,
-      \          styledAmpersand,
       \          css.*Prop,cssValue.*,cssColor,cssUrl,cssImportant,cssError,
       \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
-      \          cssHacks,customCssAttrRegion
+      \          cssHacks,customCssAttrRegion,
+      \          jsComment,
+      \          styledAmpersand
+
 
 " TODO: add nesting for styledDefinition -> really?
-" TODO: comments -> {/* */} not in-file explaination comments
 
 " color the custom highlight elements
 hi def link styledAmpersand Special

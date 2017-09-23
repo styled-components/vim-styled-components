@@ -48,6 +48,7 @@ const StyledButton = styled.button`
   margin-left: 20px;
   margin-bottom: 1em;
 
+  // TODO: move next element into group
   position: absolute;
 
   {/* background group */}
