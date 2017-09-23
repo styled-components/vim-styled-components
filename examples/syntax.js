@@ -83,6 +83,9 @@ const StyledButton = styled.button`
   img::before,
   img::after {} 
 
+  .class-def {}
+  #identifier-def {}
+
   {/* fun fact: this file is only for example purposes */}
   &:active,
   &:focus,
