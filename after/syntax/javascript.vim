@@ -22,17 +22,18 @@ if v:version >= 700
 endif
 
 " define custom cssAttrRegion
-"   a) add "," and "{" to the end characters
-"   b) add "cssPseudoClassId" to it's containing elements
-"      this will incorrectly highlight pseudo elements incorrectly used as
-"      attributes but correctly highlight actual attributes
-syn region customCssAttrRegion start=":" end="\ze\(,\|;\|)\|{\|}\)" contained
+"   - add ",", "`" and "{" to the end characters
+"   - add "cssPseudoClassId" to it's containing elements
+"     this will incorrectly highlight pseudo elements incorrectly used as
+"     attributes but correctly highlight actual attributes
+syn region customCssAttrRegion contained
+      \ start=":" end="\ze\%(,\|;\|)\|{\|}\|`\)"
       \ contains=css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,
       \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
       \          cssError,cssAttrComma,cssNoise,cssPseudoClassId,
       \          jsTemplateExpression
-syn region customCssAttrRegion start="transition\s*:" end="\ze\(;\|)\|{\|}\)"
-      \ contained
+syn region customCssAttrRegion contained
+      \ start="transition\s*:" end="\ze\%(;\|)\|{\|}\|`\)"
       \ contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,
       \          cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,
       \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId,
