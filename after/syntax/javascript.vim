@@ -49,6 +49,7 @@ syn cluster CSSTop
 " custom highlights for styled components
 "   - "&" inside top level
 "   - cssTagName inside of jsStrings inside of styledPrefix regions
+"     TODO: override highlighting of cssTagName with more subtle one
 syn match  styledAmpersand contained "&"
 syn region styledTagNameString matchgroup=jsString contained
       \ start=+'+ end=+'+ skip=+\\\%(\'\|$\)+
@@ -82,6 +83,8 @@ syn match jsFuncCall "\<styled\>\s*(\k\+)"
 syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ contains=styledTagNameString
       \ nextgroup=styledDefinition
+syn match jsFuncCall "\.\<withComponent\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
+      \ contains=styledTagNameString
 
 " inject css highlighting into custom jsTemplateString region
 syn region styledDefinition contained transparent fold

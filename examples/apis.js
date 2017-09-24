@@ -77,6 +77,12 @@ const HotpinkButton = Button.extend`
   color: hotpink;
 `;
 
+// match of withComponent
+// - unmatched
+const HotpinkDvi = HotpinkButton.withComponent('dvi');
+// - matched
+const HotpinkDiv = HotpinkButton.withComponent('div');
+
 // match of css, keyframes, injectGlobal api
 // - css
 const complexMixin = css`
