@@ -50,32 +50,28 @@ syn cluster CSSTop
 "   - "&" inside top level
 syn match  styledAmpersand contained "&"
 
-" TODO: define custom styled definition regions
-"       styled-components
-"         styled.*` -> `
-"         styled.*.attr(*)` -> `
-"         *.extend` -> `
-"         css` -> `
-"         keyframes` -> `
-"         injectGlobal` -> `
-"       diet-cola:
-"         dc(*)(` -> `)
-"       emotion:
-"         fontFace` -> `
-"       see cssFunctionName: one match for `styled.*`, `dc(*)(`, etc.
-"                            and one match for the actual ``-block
-"                            use nextgroup to say to highlight the inlaying
-"                            contents
-syn region styledDefinition transparent matchgroup=styledTemplate
-      \ start="styled\..\+`"
-      \ start="styled\..\+\.attr(\*)`"
-      \ start=".\+\.extend`"
-      \ start="css`"
-      \ start="keyframes`"
-      \ start="injectGlobal`"
-      \ start="fontFace`"
-      \ start="dc(.\+)(`"
-      \ end="`" skip="\\\(`\|$\)"
+" define custom API sections that trigger the styledDefinition highlighting
+syn match styledPrefix "\<styled\>\.\k\+"
+      \ transparent fold
+      \ nextgroup=styledDefinition
+      \ contains=cssTagName
+syn match styledPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})"
+      \ transparent fold extend
+      \ nextgroup=styledDefinition
+      \ contains=jsObject
+syn match styledPrefix "\.\<extend\>"
+      \ transparent fold
+      \ nextgroup=styledDefinition
+
+" extend javascript matches to trigger styledDefinition highlighting
+syn match jsFuncCall "\<styled\>\s*(\k\+)"
+      \ nextgroup=styledDefinition
+syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
+      \ nextgroup=styledDefinition
+
+" inject css highlighting into custom jsTemplateString region
+syn region styledDefinition contained transparent fold
+      \ start="`" end="`" skip="\\\%(`\|$\)"
       \ contains=@CSSTop,
       \          css.*Prop,cssValue.*,cssColor,cssUrl,cssImportant,cssError,
       \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
