@@ -86,7 +86,7 @@ syn region styledDefinition contained transparent fold
       \ contains=@CSSTop,
       \          css.*Prop,cssValue.*,cssColor,cssUrl,cssImportant,cssError,
       \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
-      \          cssHacks,customCssAttrRegion,
+      \          cssHacks,cssKeyFrameSelector,customCssAttrRegion,
       \          jsComment,
       \          styledAmpersand
 
