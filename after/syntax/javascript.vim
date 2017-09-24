@@ -74,6 +74,9 @@ syn match styledPrefix "\.\<extend\>"
       \ nextgroup=styledDefinition
 
 " extend javascript matches to trigger styledDefinition highlighting
+syn match jsTaggedTemplate extend
+      \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>"
+      \ nextgroup=styledDefinition
 syn match jsFuncCall "\<styled\>\s*(\k\+)"
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
