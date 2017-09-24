@@ -74,9 +74,19 @@ syn match styledPrefix "\.\<extend\>"
       \ transparent fold
       \ nextgroup=styledDefinition
 
+" emotion css prop
+syn match  styledXmlPrefix "\<css\>" transparent contained
+      \ containedin=xmlAttrib
+      \ nextgroup=styledXmlBraces
+syn region styledXmlBraces matchgroup=jsBraces
+      \ start="={" end="}"
+      \ transparent contained
+      \ containedin=xmlEqual
+      \ contains=styledDefinition
+
 " extend javascript matches to trigger styledDefinition highlighting
 syn match jsTaggedTemplate extend
-      \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>"
+      \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>"
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\<styled\>\s*(\k\+)"
       \ nextgroup=styledDefinition
