@@ -48,7 +48,17 @@ syn cluster CSSTop
 
 " custom highlights for styled components
 "   - "&" inside top level
+"   - cssTagName inside of jsStrings inside of styledPrefix regions
 syn match  styledAmpersand contained "&"
+syn region styledTagNameString matchgroup=jsString contained
+      \ start=+'+ end=+'+ skip=+\\\%(\'\|$\)+
+      \ contains=cssTagName
+syn region styledTagNameString matchgroup=jsString contained
+      \ start=+"+ end=+"+ skip=+\\\%(\"\|$\)+
+      \ contains=cssTagName
+syn region styledTagNameString matchgroup=jsString contained
+      \ start=+`+ end=+`+ skip=+\\\%(\`\|$\)+
+      \ contains=cssTagName
 
 " define custom API sections that trigger the styledDefinition highlighting
 syn match styledPrefix "\<styled\>\.\k\+"
@@ -67,6 +77,7 @@ syn match styledPrefix "\.\<extend\>"
 syn match jsFuncCall "\<styled\>\s*(\k\+)"
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
+      \ contains=styledTagNameString
       \ nextgroup=styledDefinition
 
 " inject css highlighting into custom jsTemplateString region
