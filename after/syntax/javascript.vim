@@ -95,6 +95,9 @@ syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\.\<withComponent\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ contains=styledTagNameString
+syn match jsFuncCall "\<dc\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))\%((\)\@="
+      \ contains=styledTagNameString
+      \ nextgroup=styledDefinitionArgument
 
 " inject css highlighting into custom jsTemplateString region
 syn region styledDefinition contained transparent fold
@@ -105,9 +108,8 @@ syn region styledDefinition contained transparent fold
       \          cssHacks,cssKeyFrameSelector,customCssAttrRegion,
       \          jsComment,
       \          styledAmpersand
-
-
-" TODO: add nesting for styledDefinition -> really?
+syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
+      \ contains=styledDefinition
 
 " color the custom highlight elements
 hi def link styledAmpersand Special
