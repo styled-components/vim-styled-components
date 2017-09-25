@@ -39,6 +39,12 @@ syn region customCssAttrRegion contained
       \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId,
       \          jsTemplateExpression
 
+" define custom cssKeyFrameSelector
+"   - do not declare cssDefinition as nextgroup
+syn match customCssKeyFrameSelector "\%(\d*%\|\<from\>\|\<to\>\)" contained
+      \ skipwhite skipnl
+      \ containedin=styledDefinition
+
 " define all non-contained css definitions
 syn cluster CSSTop
       \ contains=cssTagName,cssSelectorOp,cssAttributeSelector,cssClassName,
@@ -105,14 +111,16 @@ syn region styledDefinition contained transparent fold
       \ contains=@CSSTop,
       \          css.*Prop,cssValue.*,cssColor,cssUrl,cssImportant,cssError,
       \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
-      \          cssHacks,cssKeyFrameSelector,customCssAttrRegion,
+      \          cssHacks,
+      \          customCssKeyFrameSelector,customCssAttrRegion,
       \          jsComment,
       \          styledAmpersand
 syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition
 
 " color the custom highlight elements
-hi def link styledAmpersand Special
+hi def link customCssKeyFrameSelector Constant
+hi def link styledAmpersand           Special
 
 
 if exists("s:current_syntax")
