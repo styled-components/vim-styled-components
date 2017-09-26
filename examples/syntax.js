@@ -1,18 +1,3 @@
-/* @flow */
-import styled, { keyframes } from 'styled-components';
-
-
-const rotate360 = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-
 const StyledButton = styled.button`
   {/* border group */}
   border-radius: 30px;
@@ -123,23 +108,3 @@ const StyledButton = styled.button`
   @media only screen and (min-width: 768cm) {}
   @page {}
 `;
-
-
-// check API of v2
-// https://github.com/fleischie/vim-styled-components/issues/16
-const Comp = styled.div`color: palevioletred`;
-const NewComp1 = Comp.extend`
-  color: papayawhip;
-`;
-const NewComp2 = Comp.extendWith('span')`
-  color: lightsalmon;
-`;
-
-const Link = styled.a.attrs({
-  target: '_blank',
-})`
-  color: tomato;
-`;
-
-
-export default StyledButton;
