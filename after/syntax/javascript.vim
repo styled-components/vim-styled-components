@@ -112,14 +112,16 @@ syn match jsFuncCall "\<dc\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))\%((\)\@="
       \ nextgroup=styledDefinitionArgument
 
 " inject css highlighting into custom jsTemplateString region
-syn region styledDefinition contained transparent fold
+"   - use `extend` to not end all nested jsTemplateExpression on the first
+"     closing one
+syn region styledDefinition contained transparent fold extend
       \ start="`" end="`" skip="\\\%(`\|$\)"
       \ contains=@CSSTop,
       \          css.*Prop,cssValue.*,cssColor,cssUrl,cssImportant,cssError,
       \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
       \          cssHacks,
       \          customCssKeyFrameSelector,customCssAttrRegion,
-      \          jsComment,
+      \          jsComment,jsTemplateExpression,
       \          styledAmpersand
 syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition
