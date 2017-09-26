@@ -45,6 +45,12 @@ syn match customCssKeyFrameSelector "\%(\d*%\|\<from\>\|\<to\>\)" contained
       \ skipwhite skipnl
       \ containedin=styledDefinition
 
+" fix for "-" before cssPositioningProp
+syn region customCssPositioningPrefix contained
+      \ start='-' end='\%(\s\{-}:\)\@='
+      \ containedin=styledDefinition
+      \ contains=cssPositioningProp
+
 " define all non-contained css definitions
 syn cluster CSSTop
       \ contains=cssTagName,cssSelectorOp,cssAttributeSelector,cssClassName,
@@ -119,8 +125,9 @@ syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition
 
 " color the custom highlight elements
-hi def link customCssKeyFrameSelector Constant
-hi def link styledAmpersand           Special
+hi def link customCssKeyFrameSelector  Constant
+hi def link customCssPositioningPrefix StorageClass
+hi def link styledAmpersand            Special
 
 
 if exists("s:current_syntax")
