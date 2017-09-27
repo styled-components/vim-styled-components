@@ -9,6 +9,13 @@ if exists("b:current_syntax")
 endif
 
 
+" fix for "-" before cssPositioningProp
+"   - needs to be above CSS include to not match cssVendor definitions
+syn region customCssPositioningPrefix contained
+      \ start='-' end='\%(\s\{-}:\)\@='
+      \ containedin=styledDefinition
+      \ contains=cssPositioningProp
+
 " introduce CSS cluster from built-in (or single third party syntax file)
 syn include @CSS syntax/css.vim
 
@@ -44,12 +51,6 @@ syn region customCssAttrRegion contained
 syn match customCssKeyFrameSelector "\%(\d*%\|\<from\>\|\<to\>\)" contained
       \ skipwhite skipnl
       \ containedin=styledDefinition
-
-" fix for "-" before cssPositioningProp
-syn region customCssPositioningPrefix contained
-      \ start='-' end='\%(\s\{-}:\)\@='
-      \ containedin=styledDefinition
-      \ contains=cssPositioningProp
 
 " define all non-contained css definitions
 syn cluster CSSTop
