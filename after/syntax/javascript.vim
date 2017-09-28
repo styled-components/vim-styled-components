@@ -11,9 +11,8 @@ endif
 
 " fix for "-" before cssPositioningProp
 "   - needs to be above CSS include to not match cssVendor definitions
-syn region customCssPositioningPrefix contained
+syn region cssCustomPositioningPrefix contained
       \ start='-' end='\%(\s\{-}:\)\@='
-      \ containedin=styledDefinition
       \ contains=cssPositioningProp
 
 " introduce CSS cluster from built-in (or single third party syntax file)
@@ -33,24 +32,37 @@ endif
 "   - add "cssPseudoClassId" to it's containing elements
 "     this will incorrectly highlight pseudo elements incorrectly used as
 "     attributes but correctly highlight actual attributes
-syn region customCssAttrRegion contained
+syn region cssCustomAttrRegion contained
       \ start=":" end="\ze\%(,\|;\|)\|{\|}\|`\)"
       \ contains=css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,
       \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
       \          cssError,cssAttrComma,cssNoise,cssPseudoClassId,
       \          jsTemplateExpression
-syn region customCssAttrRegion contained
+syn region cssCustomAttrRegion contained
       \ start="transition\s*:" end="\ze\%(;\|)\|{\|}\|`\)"
       \ contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,
       \          cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,
       \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId,
       \          jsTemplateExpression
 
-" define custom cssKeyFrameSelector
-"   - do not declare cssDefinition as nextgroup
-syn match customCssKeyFrameSelector "\%(\d*%\|\<from\>\|\<to\>\)" contained
+" define custom css elements to not utilize cssDefinition
+syn region cssCustomMediaBlock contained fold transparent matchgroup=cssBraces
+      \ start="{" end="}"
+      \ contains=css.*Attr,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,
+      \          cssImportant,cssError,cssStringQ,cssStringQQ,cssFunction,
+      \          cssUnicodeEscape,cssVendor,cssTagName,cssClassName,
+      \          cssIdentifier,cssPseudoClass,cssSelectorOp,cssSelectorOp2,
+      \          cssAttributeSelector
+syn region cssCustomPageWrap contained transparent matchgroup=cssBraces
+      \ start="{" end="}"
+      \ contains=cssPageMargin,cssPageProp,cssCustomAttrRegion,css.*Prop,
+      \          cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssError,
+      \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
+      \          cssHacks
+syn match cssCustomPageMargin contained skipwhite skipnl
+      \ "@\%(\%(top\|left\|right\|bottom\)-\%(left\|center\|right\|middle\|bottom\)\)\%(-corner\)\="
+syn match cssCustomKeyFrameSelector "\%(\d*%\|\<from\>\|\<to\>\)" contained
       \ skipwhite skipnl
-      \ containedin=styledDefinition
 
 " define all non-contained css definitions
 syn cluster CSSTop
@@ -121,15 +133,15 @@ syn region styledDefinition contained transparent fold extend
       \          css.*Prop,cssValue.*,cssColor,cssUrl,cssImportant,cssError,
       \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
       \          cssHacks,
-      \          customCssKeyFrameSelector,customCssAttrRegion,
+      \          cssCustom.*,
       \          jsComment,jsTemplateExpression,
       \          styledAmpersand
 syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition
 
 " color the custom highlight elements
-hi def link customCssKeyFrameSelector  Constant
-hi def link customCssPositioningPrefix StorageClass
+hi def link cssCustomKeyFrameSelector  Constant
+hi def link cssCustomPositioningPrefix StorageClass
 hi def link styledAmpersand            Special
 
 

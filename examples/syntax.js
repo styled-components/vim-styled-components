@@ -99,7 +99,6 @@ const StyledButton = styled.button`
     article {
       section {
         padding: 15em;
-
       }
     }
   }
