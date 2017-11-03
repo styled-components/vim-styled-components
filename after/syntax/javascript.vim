@@ -109,6 +109,14 @@ syn region styledXmlBraces matchgroup=jsBraces
       \ containedin=xmlEqual
       \ contains=styledDefinition
 
+" define nested region for indenting
+syn region styledNestedRegion contained transparent
+      \ matchgroup=cssBraces
+      \ start="{" end="}"
+
+" re-define cssError to be highlighted correctly in styledNestedRegion
+syn match cssError contained "{@<>"
+
 " extend javascript matches to trigger styledDefinition highlighting
 syn match jsTaggedTemplate extend
       \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>"
@@ -135,7 +143,7 @@ syn region styledDefinition contained transparent fold extend
       \          cssHacks,
       \          cssCustom.*,
       \          jsComment,jsTemplateExpression,
-      \          styledAmpersand
+      \          styledAmpersand,styledNestedRegion
 syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition
 
