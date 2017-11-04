@@ -26,12 +26,12 @@ endfu
 
 
 "" Return whether the current line is a jsTemplateString
-fu! IsTemplateString(lnum)
+fu! IsStyledDefinition(lnum)
   " iterate through all syntax items in the given line
   for item in SynSOL(a:lnum)
     " if syntax-item is a jsTemplateString return 1 - true
     " `==#` is a match case comparison of the item
-    if item ==# 'jsTemplateString'
+    if item ==# 'styledDefinition'
       return 1
     endif
   endfor
@@ -90,53 +90,32 @@ endfu
 
 
 "" Get the indentation of the current line
-"
-" The general workflow is the following:
-" 1. Indent the jsTemplateString
-" 2. Indent the open cssDefinitions
-" 3. Un-indent closed cssDefinitions
-" 4. Un-indent jsTemplateString, if no CSS definitions are present
-"
-" TODO: css pseudo definitions (e.g. &::active) aren't correctly classified
-"       via the syntax-detection as cssDefinition (but as cssAttrRegion). Thus
-"       the indentation for these definitions is not working correctly, yet.
 fu! GetStyledIndent()
-  let indent = 0
+  if IsStyledDefinition(v:lnum)
+    " use the currently "active" styledDefinitions and styledNestedRegions
+    " as indenting level if the current line is a styled definition
+    let prev_sD = CountOccurencesInSOL(v:lnum, 'styledDefinition')
+    let prev_sN = CountOccurencesInSOL(v:lnum, 'styledNestedRegion')
 
-  " indent CSS definitions only if inside a jsTemplateString
-  if IsTemplateString(v:lnum)
-    " indent one level for the jsTemplateString
-    let indent += &sw
+    let prev_indent = prev_sD + prev_sN
 
-    " get occurences of cssDefinition at begining/end of current line
-    let startDef = CountOccurencesInSOL(v:lnum, "cssDefinition")
-    let endDef = CountOccurencesInEOL(v:lnum, "cssDefinition")
+    let curr_sD = CountOccurencesInEOL(v:lnum, 'styledDefinition')
+    let curr_sN = CountOccurencesInEOL(v:lnum, 'styledNestedRegion')
 
-    " indent the number of current cssDefinitions
-    let indent += startDef * &sw
+    let curr_indent = curr_sD + curr_sN
 
-    " un-indent one level, if the open cssDefinition is closed by the end of
-    " the line
-    if startDef > endDef
-      let indent -= &sw
-    endif
+    let indent = min([prev_indent, curr_indent])
 
-    " un-indent one level, if the jsTemplateString contains no CSS definitions
-    if !ContainsCSS(v:lnum)
-      let indent -= &sw
-    endif
+    return indent * &sw
   else
     " indent with the previously stored indentexpr
     " this is either GetJavascriptIndentation or GetJsxIndentation depending
     " on the available plugins
     if len(b:js_ts_indent)
-      let indent = eval(b:js_ts_indent)
+      return eval(b:js_ts_indent)
     else
       " if all else fails indent according to C-syntax
-      let indent = cindent(v:lnum)
+      return cindent(v:lnum)
     endif
   endif
-
-  " return indentation of the current line
-  return indent
 endfu
