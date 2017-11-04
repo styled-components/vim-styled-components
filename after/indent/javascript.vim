@@ -9,6 +9,10 @@ let b:js_ts_indent=&indentexpr
 " set indentexpr for this filetype (styled-components)
 setlocal indentexpr=GetStyledIndent()
 
+" add the following keys to trigger reindenting, when in insert mode
+" - *;    - Indent and insert on press of ';' key.
+" - *<:>  - Indent and insert on press of ':' key.
+set indentkeys+=*;,*<:>
 
 " re-implement SynSOL of vim-jsx
 " TODO: add dependency to the readme and remove duplicate implementation
