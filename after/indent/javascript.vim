@@ -12,23 +12,23 @@ setlocal indentexpr=GetStyledIndent()
 
 " re-implement SynSOL of vim-jsx
 " TODO: add dependency to the readme and remove duplicate implementation
-fu! SynSOL(lnum)
+fu! s:SynSOL(lnum)
   return map(synstack(a:lnum, 1), 'synIDattr(v:val, "name")')
 endfu
 
 " re-implement SynEOL of vim-jsx
 " TODO: add dependency to the readme and remove duplicate implementation
-fu! SynEOL(lnum)
-  let lnum = prevnonblank(a:lnum)
-  let col = strlen(getline(lnum))
-  return map(synstack(lnum, col), 'synIDattr(v:val, "name")')
+fu! s:SynEOL(lnum)
+  let l:lnum = prevnonblank(a:lnum)
+  let l:col = strlen(getline(l:lnum))
+  return map(synstack(l:lnum, l:col), 'synIDattr(v:val, "name")')
 endfu
 
 
 "" Return whether the current line is a jsTemplateString
-fu! IsStyledDefinition(lnum)
+fu! s:IsStyledDefinition(lnum)
   " iterate through all syntax items in the given line
-  for item in SynSOL(a:lnum)
+  for item in s:SynSOL(a:lnum)
     " if syntax-item is a jsTemplateString return 1 - true
     " `==#` is a match case comparison of the item
     if item ==# 'styledDefinition'
@@ -40,73 +40,58 @@ fu! IsStyledDefinition(lnum)
   return 0
 endfu
 
-"" Return whether the current line contains a css-element
-fu! ContainsCSS(lnum)
-  " iterate through all syntax items in the given line
-  for item in SynEOL(a:lnum)
-    " if syntax-item starts with a css item return 1 - true
-    if item =~ '^css'
-      return 1
-    endif
-  endfor
-
-  " fallback to 0 - false
-  return 0
-endfu
-
 "" Count occurences of `str` at the beginning of the given `lnum` line
-fu! CountOccurencesInSOL(lnum, str)
-  let occurence = 0
+fu! s:CountOccurencesInSOL(lnum, str)
+  let l:occurence = 0
 
   " iterate through all items in the given line
-  for item in SynSOL(a:lnum)
+  for item in s:SynSOL(a:lnum)
     " if the syntax-item equals the given str increment the counter
     " `==?` is a case isensitive equal operation
     if item ==? a:str
-      let occurence += 1
+      let l:occurence += 1
     endif
   endfor
 
   " return the accumulated count of occurences
-  return occurence
+  return l:occurence
 endfu
 
 "" Count occurences of `str` at the end of the given `lnum` line
-fu! CountOccurencesInEOL(lnum, str)
-  let occurence = 0
+fu! s:CountOccurencesInEOL(lnum, str)
+  let l:occurence = 0
 
   " iterate through all items in the given line
-  for item in SynEOL(a:lnum)
+  for item in s:SynEOL(a:lnum)
     " if the syntax-item equals the given str increment the counter
     " `==?` is a case insensitive equal operation
     if item == a:str
-      let occurence += 1
+      let l:occurence += 1
     endif
   endfor
 
   " return the accumulated count of occurences
-  return occurence
+  return l:occurence
 endfu
-
 
 "" Get the indentation of the current line
 fu! GetStyledIndent()
-  if IsStyledDefinition(v:lnum)
+  if s:IsStyledDefinition(v:lnum)
     " use the currently "active" styledDefinitions and styledNestedRegions
     " as indenting level if the current line is a styled definition
-    let prev_sD = CountOccurencesInSOL(v:lnum, 'styledDefinition')
-    let prev_sN = CountOccurencesInSOL(v:lnum, 'styledNestedRegion')
+    let l:prev_sD = s:CountOccurencesInSOL(v:lnum, 'styledDefinition')
+    let l:prev_sN = s:CountOccurencesInSOL(v:lnum, 'styledNestedRegion')
 
-    let prev_indent = prev_sD + prev_sN
+    let l:prev_indent = l:prev_sD + l:prev_sN
 
-    let curr_sD = CountOccurencesInEOL(v:lnum, 'styledDefinition')
-    let curr_sN = CountOccurencesInEOL(v:lnum, 'styledNestedRegion')
+    let l:curr_sD = s:CountOccurencesInEOL(v:lnum, 'styledDefinition')
+    let l:curr_sN = s:CountOccurencesInEOL(v:lnum, 'styledNestedRegion')
 
-    let curr_indent = curr_sD + curr_sN
+    let l:curr_indent = l:curr_sD + l:curr_sN
 
-    let indent = min([prev_indent, curr_indent])
+    let l:indent = min([l:prev_indent, l:curr_indent])
 
-    return indent * &sw
+    return l:indent * &sw
   else
     " indent with the previously stored indentexpr
     " this is either GetJavascriptIndentation or GetJsxIndentation depending
