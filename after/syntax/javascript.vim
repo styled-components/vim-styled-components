@@ -94,7 +94,7 @@ syn match styledPrefix "\<styled\>\.\k\+"
 syn match styledPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})"
       \ transparent fold extend
       \ nextgroup=styledDefinition
-      \ contains=jsObject
+      \ contains=jsObject,jsParen
 syn match styledPrefix "\.\<extend\>"
       \ transparent fold
       \ nextgroup=styledDefinition
