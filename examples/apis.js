@@ -110,6 +110,39 @@ injectGlobal`
   }
 `;
 
+// class based stylings
+class Container {
+  render() {
+    const Elem = styled.section`
+      position: relative;
+      top: 0;
+      bottom: 0;
+    `;
+
+    const Item = Elem.extend`
+      margin: 25px;
+    `;
+
+    const List = styled.ul.attrs({
+      padding: getPadding(),
+    })`
+      background-color: blue;
+      color: white;
+    `;
+
+    return (
+      <main>
+        <Elem />
+        <List>
+          <Item />
+          <Item />
+          <Item />
+        </List>
+      </main>
+    );
+  }
+}
+
 /* emotion */
 import { fontFace } from 'emotion';
 

@@ -93,13 +93,16 @@ syn match styledPrefix "\<styled\>\.\k\+"
       \ transparent fold
       \ nextgroup=styledDefinition
       \ contains=cssTagName
+      \ containedin=jsFuncBlock
 syn match styledPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})"
       \ transparent fold extend
       \ nextgroup=styledDefinition
       \ contains=jsObject,jsParen
+      \ containedin=jsFuncBlock
 syn match styledPrefix "\.\<extend\>"
       \ transparent fold
       \ nextgroup=styledDefinition
+      \ containedin=jsFuncBlock
 
 " TODO: emotion css prop
 " a babel plugin allows to have the following syntax:
