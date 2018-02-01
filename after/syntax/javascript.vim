@@ -27,6 +27,8 @@ if v:version >= 700
   endtry
 endif
 
+" TODO: include react-native keywords
+
 " define custom cssAttrRegion
 "   - add ",", "`" and "{" to the end characters
 "   - add "cssPseudoClassId" to it's containing elements
@@ -99,15 +101,31 @@ syn match styledPrefix "\.\<extend\>"
       \ transparent fold
       \ nextgroup=styledDefinition
 
-" emotion css prop
-syn match  styledXmlPrefix "\<css\>" transparent contained
-      \ containedin=xmlAttrib
-      \ nextgroup=styledXmlBraces
-syn region styledXmlBraces matchgroup=jsBraces
-      \ start="={" end="}"
-      \ transparent contained
-      \ containedin=xmlEqual
-      \ contains=styledDefinition
+" TODO: emotion css prop
+" a babel plugin allows to have the following syntax:
+" <div
+"   css={`
+"     <cssProp>: <cssAttrib>;
+"
+"     &:hover {
+"       <cssProp>: <cssAtrib>;
+"     }
+"   `}
+" />
+" The current problem:
+" - `css=` can be correctly classified
+" - a `nextgroup` doesn't work correctly
+" - the redefinition of `xmlString` inside of vim-jsx overwrites custom
+"   regions, this has to be investigated further
+"
+" draft:
+" syn match styledXmlPrefix "\<css\>="
+"       \ contains=xmlEqual
+"       \ nextgroup=styledXmlRegion
+" syn region styledXmlRegion
+"       \ start="{" end="}"
+"       \ containedin=??
+"       \ contains=styledDefinition
 
 " define nested region for indenting
 syn region styledNestedRegion contained transparent
