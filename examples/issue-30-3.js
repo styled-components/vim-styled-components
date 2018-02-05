@@ -10,6 +10,13 @@ class CoffeeList extends React.Component<Props, State> {
           <Text>Loading...</Text>
         ) : (
           <FlatList
+            css={`
+              background: none;
+
+              &:hover {
+                background: none;
+              }
+            `}
             refreshControl={
               <RefreshControl refreshing={fetching} onRefresh={refetch} />
             }

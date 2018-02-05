@@ -104,31 +104,20 @@ syn match styledPrefix "\.\<extend\>"
       \ nextgroup=styledDefinition
       \ containedin=jsFuncBlock
 
-" TODO: emotion css prop
-" a babel plugin allows to have the following syntax:
-" <div
-"   css={`
-"     <cssProp>: <cssAttrib>;
-"
-"     &:hover {
-"       <cssProp>: <cssAtrib>;
-"     }
-"   `}
-" />
-" The current problem:
-" - `css=` can be correctly classified
-" - a `nextgroup` doesn't work correctly
-" - the redefinition of `xmlString` inside of vim-jsx overwrites custom
-"   regions, this has to be investigated further
-"
-" draft:
-" syn match styledXmlPrefix "\<css\>="
-"       \ contains=xmlEqual
-"       \ nextgroup=styledXmlRegion
-" syn region styledXmlRegion
-"       \ start="{" end="}"
-"       \ containedin=??
-"       \ contains=styledDefinition
+" define emotion css prop
+" to bypass problems from top-level defined xml/js definitions, this
+" plugin re-defines keywords/noise for highlighting inside of the custom
+" xmlAttrib definition
+syn keyword styledXmlRegionKeyword css
+syn match   styledXmlRegionNoise "\%(=\|{\|}\)"
+" only include styledDefinitions inside of xmlAttribs, that are wrapped
+" in `css={}` regions, `keepend` is necessary to correctly break on the
+" higher-level xmlAttrib region end
+syn region styledXmlRegion
+      \ start="\<css\>={" end="}"
+      \ keepend fold
+      \ containedin=xmlAttrib
+      \ contains=styledXmlRegionKeyword,styledXmlRegionNoise,styledDefinition
 
 " define nested region for indenting
 syn region styledNestedRegion contained transparent
@@ -172,6 +161,10 @@ syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
 hi def link cssCustomKeyFrameSelector  Constant
 hi def link cssCustomPositioningPrefix StorageClass
 hi def link styledAmpersand            Special
+
+hi def link styledXmlRegionKeyword Type
+hi def link styledXmlRegionNoise   Noise
+hi def link styledXmlRegion        String
 
 
 if exists("s:current_syntax")
