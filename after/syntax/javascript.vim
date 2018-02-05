@@ -108,7 +108,7 @@ syn match styledPrefix "\.\<extend\>"
 " to bypass problems from top-level defined xml/js definitions, this
 " plugin re-defines keywords/noise for highlighting inside of the custom
 " xmlAttrib definition
-syn keyword styledXmlRegionKeyword css
+syn keyword styledXmlRegionKeyword css contained
 syn match   styledXmlRegionNoise "\%(=\|{\|}\)"
 " only include styledDefinitions inside of xmlAttribs, that are wrapped
 " in `css={}` regions, `keepend` is necessary to correctly break on the
