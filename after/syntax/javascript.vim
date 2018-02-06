@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:   styled-components (js/ts)
 " Maintainer: Karl Fleischmann <fleischmann.karl@gmail.com>
-" URL:        https://github.com/fleischie/vim-styled-components
+" URL:        https://github.com/styled-components/vim-styled-components
 
 if exists("b:current_syntax")
   let s:current_syntax=b:current_syntax
