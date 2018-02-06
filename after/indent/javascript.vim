@@ -12,20 +12,25 @@ setlocal indentexpr=GetStyledIndent()
 " add the following keys to trigger reindenting, when in insert mode
 " - *;    - Indent and insert on press of ';' key.
 " - *<:>  - Indent and insert on press of ':' key.
-set indentkeys+=*;,*<:>
+set indentkeys+=*;,*<:>,*<Return>
+
+fu! s:GetSyntaxNames(lnum, cnum)
+  return map(synstack(a:lnum, a:cnum), 'synIDattr(v:val, "name")')
+endfu
 
 " re-implement SynSOL of vim-jsx
 " TODO: add dependency to the readme and remove duplicate implementation
 fu! s:SynSOL(lnum)
-  return map(synstack(a:lnum, 1), 'synIDattr(v:val, "name")')
+  return s:GetSyntaxNames(a:lnum, 1)
 endfu
 
 " re-implement SynEOL of vim-jsx
 " TODO: add dependency to the readme and remove duplicate implementation
-fu! s:SynEOL(lnum)
+fu! s:SynEOL(lnum, offset)
   let l:lnum = prevnonblank(a:lnum)
   let l:col = strlen(getline(l:lnum))
-  return map(synstack(l:lnum, l:col), 'synIDattr(v:val, "name")')
+
+  return s:GetSyntaxNames(l:lnum, l:col + a:offset)
 endfu
 
 
@@ -62,11 +67,11 @@ fu! s:CountOccurencesInSOL(lnum, str)
 endfu
 
 "" Count occurences of `str` at the end of the given `lnum` line
-fu! s:CountOccurencesInEOL(lnum, str)
+fu! s:CountOccurencesInEOL(lnum, str, offset)
   let l:occurence = 0
 
   " iterate through all items in the given line
-  for item in s:SynEOL(a:lnum)
+  for item in s:SynEOL(a:lnum, a:offset)
     " if the syntax-item equals the given str increment the counter
     " `==?` is a case insensitive equal operation
     if item == a:str
@@ -81,30 +86,43 @@ endfu
 "" Get the indentation of the current line
 fu! GetStyledIndent()
   if s:IsStyledDefinition(v:lnum)
-    " use the currently "active" styledDefinitions and styledNestedRegions
-    " as indenting level if the current line is a styled definition
-    let l:prev_sD = s:CountOccurencesInSOL(v:lnum, 'styledDefinition')
-    let l:prev_sN = s:CountOccurencesInSOL(v:lnum, 'styledNestedRegion')
+    let l:baseIndent = 0
 
-    let l:prev_indent = l:prev_sD + l:prev_sN
+    " find last non-styled line
+    let l:cnum = v:lnum
+    while s:IsStyledDefinition(l:cnum)
+      let l:cnum -= 1
+    endwhile
 
-    let l:curr_sD = s:CountOccurencesInEOL(v:lnum, 'styledDefinition')
-    let l:curr_sN = s:CountOccurencesInEOL(v:lnum, 'styledNestedRegion')
+    " get indentation of the last non-styled line as base indentation
+    let l:baseIndent = indent(l:cnum)
 
-    let l:curr_indent = l:curr_sD + l:curr_sN
+    " incrementally build indentation based on current indentation
+    " - one shiftwidth for the styled definition region
+    " - one shiftwidth per open nested definition region
+    let l:styledIndent = &sw
+    let l:styledIndent += min([
+          \ s:CountOccurencesInSOL(v:lnum, 'styledNestedRegion'),
+          \ s:CountOccurencesInEOL(v:lnum, 'styledNestedRegion', 0)
+          \ ]) * &sw
 
-    let l:indent = min([l:prev_indent, l:curr_indent])
-
-    return l:indent * &sw
-  else
-    " indent with the previously stored indentexpr
-    " this is either GetJavascriptIndentation or GetJsxIndentation depending
-    " on the available plugins
-    if len(b:js_ts_indent)
-      return eval(b:js_ts_indent)
-    else
-      " if all else fails indent according to C-syntax
-      return cindent(v:lnum)
+    " decrease indentation by one shiftwidth, if the styled definition
+    " region ends on the current line
+    " - either directly via styled definition region, or
+    " - if the very last
+    if s:CountOccurencesInEOL(v:lnum, 'styledDefinition', 1) == 0
+      let l:styledIndent -= &sw
     endif
+
+    " return the base indentation
+    " (for nested styles inside classes/objects/etc.) plus the actual
+    " indentation inside the styled definition region
+    return l:baseIndent + l:styledIndent
+  elseif len(b:js_ts_indent)
+    " use stored indentation function, if not inside of styledDefinition
+    return eval(b:js_ts_indent)
   endif
+
+  " if all else fails indent according to C-syntax
+  return cindent(v:lnum)
 endfu
