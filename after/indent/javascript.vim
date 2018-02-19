@@ -119,8 +119,19 @@ fu! GetStyledIndent()
     " indentation inside the styled definition region
     return l:baseIndent + l:styledIndent
   elseif len(b:js_ts_indent)
+    let l:offset = 0
+
+    " increase indentation by one shiftwidth, if the last line ended on a
+    " styledXmlRegion and this line does not continue with it
+    " this is a fix for an incorrectly indented xml prop after a
+    " glamor-styled styledXmlRegion
+    if s:CountOccurencesInEOL(v:lnum-1, 'styledXmlRegion', 0) == 1 &&
+          \ s:CountOccurencesInSOL(v:lnum, 'styledXmlRegion') == 0
+      let l:offset = &sw
+    endif
+
     " use stored indentation function, if not inside of styledDefinition
-    return eval(b:js_ts_indent)
+    return eval(b:js_ts_indent) + l:offset
   endif
 
   " if all else fails indent according to C-syntax
