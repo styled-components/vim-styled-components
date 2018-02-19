@@ -1,7 +1,7 @@
 " Vim syntax file
 " Language:   styled-components (js/ts)
 " Maintainer: Karl Fleischmann <fleischmann.karl@gmail.com>
-" URL:        https://github.com/fleischie/vim-styled-components
+" URL:        https://github.com/styled-components/vim-styled-components
 
 if exists("b:current_syntax")
   let s:current_syntax=b:current_syntax
@@ -9,75 +9,162 @@ if exists("b:current_syntax")
 endif
 
 
-" find import line matching styled-components
-let libraries = '\(styled-components\|diet-cola\|glamor\/styled\|emotion\)'
-let import_line = search('import\(.\|\n\)*from.*' . libraries, 'n')
-let require_line = search('require\(.\|\n\)*' . libraries, 'n')
+" fix for "-" before cssPositioningProp
+"   - needs to be above CSS include to not match cssVendor definitions
+syn region cssCustomPositioningPrefix contained
+      \ start='-' end='\%(\s\{-}:\)\@='
+      \ contains=cssPositioningProp
 
-" if there is such a line in the document
-if import_line > 0 || require_line > 0
+" introduce CSS cluster from built-in (or single third party syntax file)
+syn include @CSS syntax/css.vim
 
-  " extend javascript syntax
-  runtime! syntax/css.vim
-  runtime! syntax/css/*.vim
-
-  " re-implement cssAttrRegion
-  syn region customCssAttrRegion start=/[^&]:/ end=/\ze\(,\|;\|)\|{\|}\)/
-        \ contained
-        \ contains=css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,
-        \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
-        \          cssError,cssAttrComma,cssNoise
-
-  " re-define CSS cluster (mainly to omit cssAttrRegion)
-  syntax cluster CSS
-        \ contains=cssAnimation,cssAnimationAttr,cssAnimationProp,cssAttr,
-        \          cssAttrComma,cssAttributeSelector,cssAuralAttr,
-        \          cssAuralProp,cssBackgroundAttr,cssBackgroundProp,
-        \          cssBorderAttr,cssBorderProp,cssBoxAttr,cssBoxProp,cssBraces,
-        \          cssClassName,cssClassNameDot,cssColor,cssColorProp,cssComma,
-        \          cssComment,cssCommonAttr,cssContentForPagedMediaAttr,
-        \          cssContentForPagedMediaProp,cssDefinition,cssDeprecated,
-        \          cssDimensionAttr,cssDimensionProp,cssError,
-        \          cssFlexibleBoxAttr,cssFlexibleBoxProp,cssFontAttr,
-        \          cssFontDescriptor,cssFontDescriptorAttr,
-        \          cssFontDescriptorBlock,cssFontDescriptorFunction,
-        \          cssFontDescriptorProp,cssFontProp,cssFunction,
-        \          cssFunctionComma,cssFunctionName,cssGeneratedContentAttr,
-        \          cssGeneratedContentProp,cssGradientAttr,cssGridAttr,
-        \          cssGridProp,cssHacks,cssHyerlinkAttr,cssHyerlinkProp,
-        \          cssIEUIAttr,cssIEUIProp,cssIdentifier,cssImportant,
-        \          cssInclude,cssIncludeKeyword,cssKeyFrame,
-        \          cssKeyFrameSelector,cssKeyFrameWrap,cssLineboxAttr,
-        \          cssLineboxProp,cssListAttr,cssListProp,cssMarginAttr,
-        \          cssMarqueeAttr,cssMarqueeProp,cssMedia,cssMediaAttr,
-        \          cssMediaBlock,cssMediaComma,cssMediaKeyword,cssMediaProp,
-        \          cssMediaType,cssMobileTextProp,cssMultiColumnAttr,
-        \          cssMultiColumnProp,cssNoise,cssPaddingAttr,cssPage,
-        \          cssPageMargin,cssPageProp,cssPagePseudo,cssPageWrap,
-        \          cssPagedMediaAttr,cssPagedMediaProp,cssPositioningAttr,
-        \          cssPositioningProp,cssPrintAttr,cssPrintProp,cssProp,
-        \          cssPseudoClass,cssPseudoClassFn,cssPseudoClassId,
-        \          cssPseudoClassLang,cssRenderAttr,cssRenderProp,cssRubyAttr,
-        \          cssRubyProp,cssSelectorOp,cssSelectorOp2,cssSpecialCharQ,
-        \          cssSpecialCharQQ,cssSpeechAttr,cssSpeechProp,cssStringQ,
-        \          cssStringQQ,cssTableAttr,cssTableProp,cssTagName,
-        \          cssTextAttr,cssTextProp,cssTransformAttr,cssTransformProp,
-        \          cssTransitionAttr,cssTransitionProp,cssUIAttr,cssUIProp,
-        \          cssURL,cssUnicodeEscape,cssUnicodeRange,cssUnitDecorators,
-        \          cssValueAngle,cssValueFrequency,cssValueInteger,
-        \          cssValueLength,cssValueNumber,cssValueTime,cssVend,
-        \          customCssAttrRegion
-
-  " allow additional CSS in cssDefinitions
-  "   `[^$]` skips "${", so that js template expressions are not considered
-  "   cssDefinitions and thus do not contain CSS definitions
-  syn region cssDefinition matchgroup=cssBraces start=+[^$]{+ end=+}+
-        \ contained transparent fold contains=@CSS
-
-  " extend jsTemplateString syntax
-  syntax region jsTemplateString start=+`+ skip=+\\\(`\|$\)+ end=+`+
-        \ extend transparent fold contains=@CSS
+" try to include CSS3 definitions from multiple files
+" this is only possible on vim version above 7
+if v:version >= 700
+  try
+    syn include @CSS3 syntax/css/*.vim
+  catch
+  endtry
 endif
+
+" TODO: include react-native keywords
+
+" define custom cssAttrRegion
+"   - add ",", "`" and "{" to the end characters
+"   - add "cssPseudoClassId" to it's containing elements
+"     this will incorrectly highlight pseudo elements incorrectly used as
+"     attributes but correctly highlight actual attributes
+syn region cssCustomAttrRegion contained
+      \ start=":" end="\ze\%(,\|;\|)\|{\|}\|`\)"
+      \ contains=css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,
+      \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
+      \          cssError,cssAttrComma,cssNoise,cssPseudoClassId,
+      \          jsTemplateExpression
+syn region cssCustomAttrRegion contained
+      \ start="transition\s*:" end="\ze\%(;\|)\|{\|}\|`\)"
+      \ contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,
+      \          cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,
+      \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId,
+      \          jsTemplateExpression
+
+" define custom css elements to not utilize cssDefinition
+syn region cssCustomMediaBlock contained fold transparent matchgroup=cssBraces
+      \ start="{" end="}"
+      \ contains=css.*Attr,css.*Prop,cssComment,cssValue.*,cssColor,cssURL,
+      \          cssImportant,cssError,cssStringQ,cssStringQQ,cssFunction,
+      \          cssUnicodeEscape,cssVendor,cssTagName,cssClassName,
+      \          cssIdentifier,cssPseudoClass,cssSelectorOp,cssSelectorOp2,
+      \          cssAttributeSelector
+syn region cssCustomPageWrap contained transparent matchgroup=cssBraces
+      \ start="{" end="}"
+      \ contains=cssPageMargin,cssPageProp,cssCustomAttrRegion,css.*Prop,
+      \          cssComment,cssValue.*,cssColor,cssURL,cssImportant,cssError,
+      \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
+      \          cssHacks
+syn match cssCustomPageMargin contained skipwhite skipnl
+      \ "@\%(\%(top\|left\|right\|bottom\)-\%(left\|center\|right\|middle\|bottom\)\)\%(-corner\)\="
+syn match cssCustomKeyFrameSelector "\%(\d*%\|\<from\>\|\<to\>\)" contained
+      \ skipwhite skipnl
+
+" define all non-contained css definitions
+syn cluster CSSTop
+      \ contains=cssTagName,cssSelectorOp,cssAttributeSelector,cssClassName,
+      \          cssBraces,cssIdentifier,cssInclude,cssPage,cssKeyFrame,
+      \          cssInclude,cssFontDescriptor,cssAttrComma,cssPseudoClass,
+      \          cssUnicodeEscape
+
+" custom highlights for styled components
+"   - "&" inside top level
+"   - cssTagName inside of jsStrings inside of styledPrefix regions
+"     TODO: override highlighting of cssTagName with more subtle one
+syn match  styledAmpersand contained "&"
+syn region styledTagNameString matchgroup=jsString contained
+      \ start=+'+ end=+'+ skip=+\\\%(\'\|$\)+
+      \ contains=cssTagName
+syn region styledTagNameString matchgroup=jsString contained
+      \ start=+"+ end=+"+ skip=+\\\%(\"\|$\)+
+      \ contains=cssTagName
+syn region styledTagNameString matchgroup=jsString contained
+      \ start=+`+ end=+`+ skip=+\\\%(\`\|$\)+
+      \ contains=cssTagName
+
+" define custom API sections that trigger the styledDefinition highlighting
+syn match styledPrefix "\<styled\>\.\k\+"
+      \ transparent fold
+      \ nextgroup=styledDefinition
+      \ contains=cssTagName
+      \ containedin=jsFuncBlock
+syn match styledPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})"
+      \ transparent fold extend
+      \ nextgroup=styledDefinition
+      \ contains=jsObject,jsParen
+      \ containedin=jsFuncBlock
+syn match styledPrefix "\.\<extend\>"
+      \ transparent fold
+      \ nextgroup=styledDefinition
+      \ containedin=jsFuncBlock
+
+" define emotion css prop
+" to bypass problems from top-level defined xml/js definitions, this
+" plugin re-defines keywords/noise for highlighting inside of the custom
+" xmlAttrib definition
+syn keyword styledXmlRegionKeyword css contained
+syn match   styledXmlRegionNoise "\%(=\|{\|}\)"
+" only include styledDefinitions inside of xmlAttribs, that are wrapped
+" in `css={}` regions, `keepend` is necessary to correctly break on the
+" higher-level xmlAttrib region end
+syn region styledXmlRegion
+      \ start="\<css\>={" end="}"
+      \ keepend fold
+      \ containedin=xmlAttrib
+      \ contains=styledXmlRegionKeyword,styledXmlRegionNoise,styledDefinition
+
+" define nested region for indenting
+syn region styledNestedRegion contained transparent
+      \ matchgroup=cssBraces
+      \ start="{" end="}"
+
+" re-define cssError to be highlighted correctly in styledNestedRegion
+syn match cssError contained "{@<>"
+
+" extend javascript matches to trigger styledDefinition highlighting
+syn match jsTaggedTemplate extend
+      \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>"
+      \ nextgroup=styledDefinition
+syn match jsFuncCall "\<styled\>\s*(\k\+)"
+      \ nextgroup=styledDefinition
+syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
+      \ contains=styledTagNameString
+      \ nextgroup=styledDefinition
+syn match jsFuncCall "\.\<withComponent\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
+      \ contains=styledTagNameString
+syn match jsFuncCall "\<dc\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))\%((\)\@="
+      \ contains=styledTagNameString
+      \ nextgroup=styledDefinitionArgument
+
+" inject css highlighting into custom jsTemplateString region
+"   - use `extend` to not end all nested jsTemplateExpression on the first
+"     closing one
+syn region styledDefinition contained transparent fold extend
+      \ start="`" end="`" skip="\\\%(`\|$\)"
+      \ contains=@CSSTop,
+      \          css.*Prop,cssValue.*,cssColor,cssUrl,cssImportant,cssError,
+      \          cssStringQ,cssStringQQ,cssFunction,cssUnicodeEscape,cssVendor,
+      \          cssHacks,
+      \          cssCustom.*,
+      \          jsComment,jsTemplateExpression,
+      \          styledAmpersand,styledNestedRegion
+syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
+      \ contains=styledDefinition
+
+" color the custom highlight elements
+hi def link cssCustomKeyFrameSelector  Constant
+hi def link cssCustomPositioningPrefix StorageClass
+hi def link styledAmpersand            Special
+
+hi def link styledXmlRegionKeyword Type
+hi def link styledXmlRegionNoise   Noise
+hi def link styledXmlRegion        String
 
 
 if exists("s:current_syntax")
