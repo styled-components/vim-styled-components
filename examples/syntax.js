@@ -1,21 +1,4 @@
-/* @flow */
-import styled, { keyframes } from 'styled-components';
-
-
-const rotate360 = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-
 const StyledButton = styled.button`
-  color: palevioletred;
-
   {/* border group */}
   border-radius: 30px;
   border-top-left-radius: 1px;
@@ -50,10 +33,12 @@ const StyledButton = styled.button`
   margin-left: 20px;
   margin-bottom: 1em;
 
+  // TODO: move next element into group
   position: absolute;
 
   {/* background group */}
   background: none;
+  background: url(images/test.jpg);
   background-attachment: initial;
   background-clip: inherit;
   background-color: papayawhip;
@@ -63,39 +48,53 @@ const StyledButton = styled.button`
   background-repeat: no-repeat;
   background-size: cover;
 
+  {/* color group */}
+  color: white;
+  color: papayawhip;
+  color: hotpink;
+  color: rgba(15, 15, 200, 0.5);
+  color: hsla(20, 25, 50, 0.5);
+
   {/* item alignments */}
   justify-content: space-between;
   align-items: flex-end;
 
-  a[href|="away"] {
-    text-decoration: none;
-  }
+  {/* misc special cases */}
+  transition: background-color 2kHz;
+  transform: translate3d(120deg);
+  top: -15px !important;
+
+  a[href|="away"] {}
 
   img::before,
-  img::after {
-    content: '';
-  }
+  img::after {}
+
+  .class-def {}
+  #identifier-def {}
 
   {/* fun fact: this file is only for example purposes */}
   &:active,
   &:focus,
   &:hover,
   &:visited {
-    & > img {
-      visibility: hidden;
-    }
+    & > img {}
 
     &::before,
-    &::after {
-      background-color: rgba(0, 0, 0, 0.05);
-      top: -15px;
-      border: none;
-      display: block;
-    }
+    &::after {}
 
     animation: ${rotate360} 2s linear infinite;
   }
 
+  {/* there are actually no vendor-prefixes necessary for styled-components */}
+  -webkit-padding: inherit;
+     -moz-padding: inherit;
+       -o-padding: inherit;
+      -ms-padding: inherit;
+
+  {/* css error */}
+  {@<>
+
+  {/* nesting */}
   main {
     article {
       section {
@@ -103,24 +102,8 @@ const StyledButton = styled.button`
       }
     }
   }
+
+  {/* include keywords */}
+  @media only screen and (min-width: 768cm) {}
+  @page {}
 `;
-
-
-// check API of v2
-// https://github.com/fleischie/vim-styled-components/issues/16
-const Comp = styled.div`color: palevioletred`;
-const NewComp1 = Comp.extend`
-  color: papayawhip;
-`;
-const NewComp2 = Comp.extendWith('span')`
-  color: lightsalmon;
-`;
-
-const Link = styled.a.attrs({
-  target: '_blank',
-})`
-  color: tomato;
-`;
-
-
-export default StyledButton;

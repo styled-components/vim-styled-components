@@ -1,14 +1,15 @@
 # vim-styled-components
 
-Vim bundle for [styled-components](https://styled-components.com), [diet-cola](https://github.com/jxnblk/diet-cola) and experimental [glamor/styled](https://github.com/threepointone/glamor/blob/master/docs/styled.md) based javascript files.
+Vim bundle for [styled-components](https://styled-components.com), [diet-cola](https://github.com/jxnblk/diet-cola), [emotion](https://github.com/emotion-js/emotion) and experimental [glamor/styled](https://github.com/threepointone/glamor/blob/master/docs/styled.md) content in javascript files.
 
-This plugin checks, whether the current buffer contains an `import` or a `require` from `styled-components`, `diet-cola` or `glamor/styled` and injects CSS rules into JS template strings.
+After massive issues with the syntax highlighting of the previous version, this newly implemented plugin now only highlights CSS in javascript template strings, if the current APIs of the supported libraries are present. Thus there is no more bleeding of keywords into non-CSS sections of the file.
 
-Note however, that this plugin does not provide its own CSS rules. You should have an up to date vim runtime (for CSS2 rules) and - as long as CSS3 rules are not included - an additional plugin for CSS3 rules. (I recommend [hail2u/vim-css3-syntax](https://github.com/hail2u/vim-css3-syntax) but feel free to use whatever you like.)
+Note however, that this plugin does not provide (all existing) CSS rules. You should have an up to date vim runtime (for CSS2 rules) and - as long as CSS3 rules are not included - an additional plugin for CSS3 rules. (I recommend [hail2u/vim-css3-syntax](https://github.com/hail2u/vim-css3-syntax) but feel free to use whatever you like.)
 
 ## Table of Contents
 
 - [Installation](#installation)
+- [Caveats](#caveats)
 - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
 - [License](#license)
@@ -44,6 +45,32 @@ Install via:
 Run:
 
     git clone https://github.com/styled-components/vim-styled-components/ ~/.vim/bundle/vim-styled-components
+
+## Caveats
+
+As only the official APIs are supported and they are necessary to indicate highlighting sections in your javascript file, renaming of the appropriate functions or externally defining the CSS rules in template strings will lead to missing highlighting. This means the following will not be correctly highlighted:
+
+```javascript
+import styled as unstyled from 'styled-components';
+
+unstyled`
+  background-color: papayawhip;
+  color: palevioletred;
+`;
+```
+
+Neither will this:
+
+```javascript
+import dc from 'diet-cola';
+
+const mainTheme = `
+  background-color: papayawhip;
+  color: palevioletred;
+`;
+
+const Button = styled('h1')(mainStyles);
+```
 
 ## Contributing
 
