@@ -42,7 +42,7 @@ const StyledButton = styled.button`
   background-attachment: initial;
   background-clip: inherit;
   background-color: papayawhip;
-  background-image: ${props => props.image ? `url(${props.image})` : 'initial'};
+  background-image: ${props => props.image ? css`url(${props.image})` : 'initial'};
   background-origin: ${props => props.background_origin};
   background-position: bottom top center left right;
   background-repeat: no-repeat;
@@ -63,6 +63,7 @@ const StyledButton = styled.button`
   transition: background-color 2kHz;
   transform: translate3d(120deg);
   top: -15px !important;
+  ${props => props.isHighlight ? css`border: 1px solid red;` : ''}
 
   a[href|="away"] {}
 
