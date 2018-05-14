@@ -136,7 +136,7 @@ syn region styledXmlRegion
 " define nested region for indenting
 syn region styledNestedRegion contained transparent
       \ matchgroup=cssBraces
-      \ start="[^\$]{" end="}"
+      \ start="{" end="}"
 
 " re-define cssError to be highlighted correctly in styledNestedRegion
 syn match cssError contained "{@<>"
