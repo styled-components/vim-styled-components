@@ -123,7 +123,7 @@ syn match styledTypescriptPrefix
 " plugin re-defines keywords/noise for highlighting inside of the custom
 " xmlAttrib definition
 syn keyword styledXmlRegionKeyword css contained
-syn match   styledXmlRegionNoise "\%(=\|{\|}\)"
+syn match   styledXmlRegionNoise "\%(=\|{\|}\)" contained
 " only include styledDefinitions inside of xmlAttribs, that are wrapped
 " in `css={}` regions, `keepend` is necessary to correctly break on the
 " higher-level xmlAttrib region end
