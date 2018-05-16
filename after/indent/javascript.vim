@@ -131,7 +131,12 @@ fu! GetStyledIndent()
     endif
 
     " use stored indentation function, if not inside of styledDefinition
-    return eval(b:js_ts_indent) + l:offset
+    " wrap in try-catch to handle infinite recursion between
+    " GetStyledIndent and GetJsxIndent, that both evaluate each other as
+    " the previously stored indentexpr
+    try
+      return eval(b:js_ts_indent) + l:offset
+    endtry
   endif
 
   " if all else fails indent according to C-syntax
