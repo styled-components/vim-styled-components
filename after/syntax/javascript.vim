@@ -39,13 +39,15 @@ syn region cssCustomAttrRegion contained
       \ contains=css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,
       \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
       \          cssError,cssAttrComma,cssNoise,cssPseudoClassId,
-      \          jsTemplateExpression
+      \          jsTemplateExpression,
+      \          typescriptInterpolation
 syn region cssCustomAttrRegion contained
       \ start="transition\s*:" end="\ze\%(;\|)\|{\|}\|`\)"
       \ contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,
       \          cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,
       \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId,
-      \          jsTemplateExpression
+      \          jsTemplateExpression,
+      \          typescriptInterpolation
 
 " define custom css elements to not utilize cssDefinition
 syn region cssCustomMediaBlock contained fold transparent matchgroup=cssBraces
@@ -104,12 +106,24 @@ syn match styledPrefix "\.\<extend\>"
       \ nextgroup=styledDefinition
       \ containedin=jsFuncBlock
 
+" define custom API section, that contains typescript annotations
+" this is structurally similar to `jsFuncCall`, but allows type
+" annotations (delimited by brackets (e.g. "<>")) between `styled` and
+" the function call parenthesis
+syn match styledTypescriptPrefix
+      \ "\<styled\><\%(\k\|'\|\"\|`\|,\|\s\)\+>(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
+      \ transparent fold
+      \ nextgroup=styledDefinition
+      \ contains=cssTagName,
+      \          typescriptOpSymbols,typescriptEndColons,typescriptParens,
+      \          styledTagNameString
+
 " define emotion css prop
 " to bypass problems from top-level defined xml/js definitions, this
 " plugin re-defines keywords/noise for highlighting inside of the custom
 " xmlAttrib definition
 syn keyword styledXmlRegionKeyword css contained
-syn match   styledXmlRegionNoise "\%(=\|{\|}\)"
+syn match   styledXmlRegionNoise "\%(=\|{\|}\)" contained
 " only include styledDefinitions inside of xmlAttribs, that are wrapped
 " in `css={}` regions, `keepend` is necessary to correctly break on the
 " higher-level xmlAttrib region end
@@ -153,6 +167,7 @@ syn region styledDefinition contained transparent fold extend
       \          cssHacks,
       \          cssCustom.*,
       \          jsComment,jsTemplateExpression,
+      \          typescriptInterpolation,
       \          styledAmpersand,styledNestedRegion
 syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition

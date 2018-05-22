@@ -3,6 +3,10 @@
 " Maintainer: Karl Fleischmann <fleischmann.karl@gmail.com>
 " URL:        https://github.com/styled-components/vim-styled-components
 
+" initialize variable to check, if the indentation expression is run
+" multiple times in a row, which indicates an infinite recursion
+let s:is_recursion = 0
+
 " store current indentexpr for later
 let b:js_ts_indent=&indentexpr
 
@@ -130,8 +134,33 @@ fu! GetStyledIndent()
       let l:offset = &sw
     endif
 
-    " use stored indentation function, if not inside of styledDefinition
-    return eval(b:js_ts_indent) + l:offset
+    " make sure `GetStyledIndent` and `GetJsxIndent` don't infinitely
+    " recurse by incrementing a counter variable, before evaluating the
+    " stored indent expression
+    if s:is_recursion == 0
+      let s:is_recursion = 1
+      let l:result = eval(b:js_ts_indent)
+    endif
+
+    " `is_recursion` being 0 at this point indicates, that
+    " `eval(b:js_ts_indent)` did itself evaluate it's stored indentexpr
+    " and thus it can be assumed, that the current line should be
+    " indented as JS
+    if s:is_recursion == 0
+      " use one of `GetJavascriptIndent` or `GetJsIndent` if existing
+      " fallback to cindent, if not
+      if exists('*GetJavascriptIndent')
+        let l:result = GetJavascriptIndent()
+      elseif exists('*GetJsIndent')
+        let l:result = GetJsIndent()
+      else
+        let l:result = cindent(v:lnum)
+      endif
+    endif
+
+    " reset `is_recursion` counter and return the indentation value
+    let s:is_recursion = 0
+    return l:result + l:offset
   endif
 
   " if all else fails indent according to C-syntax

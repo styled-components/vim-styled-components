@@ -64,7 +64,7 @@ Neither will this:
 ```javascript
 import dc from 'diet-cola';
 
-const mainTheme = `
+const mainStyles = `
   background-color: papayawhip;
   color: palevioletred;
 `;
