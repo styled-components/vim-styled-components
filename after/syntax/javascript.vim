@@ -35,7 +35,7 @@ endif
 "     this will incorrectly highlight pseudo elements incorrectly used as
 "     attributes but correctly highlight actual attributes
 syn region cssCustomAttrRegion contained
-      \ start=":" end="\ze\%(,\|;\|)\|{\|}\|`\)"
+      \ start=":" end="\ze\%(;\|)\|{\|}\|`\)"
       \ contains=css.*Attr,cssColor,cssImportant,cssValue.*,cssFunction,
       \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
       \          cssError,cssAttrComma,cssNoise,cssPseudoClassId,
