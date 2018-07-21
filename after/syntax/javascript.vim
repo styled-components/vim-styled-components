@@ -145,7 +145,7 @@ syn match cssError contained "{@<>"
 syn match jsTaggedTemplate extend
       \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>"
       \ nextgroup=styledDefinition
-syn match jsFuncCall "\<styled\>\s*(\k\+)"
+syn match jsFuncCall "\<styled\>\s*(.\+)" transparent
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ contains=styledTagNameString
