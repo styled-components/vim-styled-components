@@ -28,5 +28,6 @@ fu! IsStyledDefinition(lnum)
 endfu
 
 if exists('&ofu')
+  let b:prevofu=&ofu
   setl omnifunc=styledcomplete#CompleteSC
 endif
