@@ -68,12 +68,18 @@ syn match cssCustomPageMargin contained skipwhite skipnl
 syn match cssCustomKeyFrameSelector "\%(\d*%\|\<from\>\|\<to\>\)" contained
       \ skipwhite skipnl
 
+" define css include customly to overwrite nextgroup
+syn region cssInclude start="@media\>" end="\ze{" skipwhite skipnl
+      \ contains=cssMediaProp,cssValueLength,cssMediaKeyword,cssValueInteger,
+      \          cssMediaMediaAttr,cssVencor,cssMediaType,cssIncludeKeyword,
+      \          cssMediaComma,cssComment
+      \ nextgroup=cssCustomMediaBlock
+
 " define all non-contained css definitions
 syn cluster CSSTop
       \ contains=cssTagName,cssSelectorOp,cssAttributeSelector,cssClassName,
-      \          cssBraces,cssIdentifier,cssInclude,cssPage,cssKeyFrame,
-      \          cssInclude,cssFontDescriptor,cssAttrComma,cssPseudoClass,
-      \          cssUnicodeEscape
+      \          cssBraces,cssIdentifier,cssIncludeKeyword,cssPage,cssKeyFrame,
+      \          cssFontDescriptor,cssAttrComma,cssPseudoClass,cssUnicodeEscape
 
 " custom highlights for styled components
 "   - "&" inside top level
