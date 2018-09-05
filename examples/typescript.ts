@@ -73,5 +73,4 @@ const AlternativeInterfaceComponent = styled<ExistingInterface | {
   color: hotpink;
 `;
 
-
 export default StyledSection;
