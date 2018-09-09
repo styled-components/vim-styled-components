@@ -20,7 +20,7 @@ syn include @CSS syntax/css.vim
 
 " try to include CSS3 definitions from multiple files
 " this is only possible on vim version above 7
-if v:version >= 700
+if v:version >= 700 && !has("nvim")
   try
     syn include @CSS3 syntax/css/*.vim
   catch
