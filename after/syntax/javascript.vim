@@ -185,7 +185,7 @@ syn region styledDefinition contained transparent fold extend
 syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition
 
-syn cluster typescriptValue add=styledPrefix
+syn cluster typescriptValue add=styledPrefix,jsFuncCall
 
 " color the custom highlight elements
 hi def link cssCustomKeyFrameSelector  Constant
