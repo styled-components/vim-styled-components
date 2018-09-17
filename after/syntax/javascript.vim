@@ -40,14 +40,14 @@ syn region cssCustomAttrRegion contained
       \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
       \          cssError,cssAttrComma,cssNoise,cssPseudoClassId,
       \          jsTemplateExpression,
-      \          typescriptInterpolation
+      \          typescriptInterpolation,typescriptTemplateSubstitution
 syn region cssCustomAttrRegion contained
       \ start="transition\s*:" end="\ze\%(;\|)\|{\|}\|`\)"
       \ contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,
       \          cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,
       \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId,
       \          jsTemplateExpression,
-      \          typescriptInterpolation
+      \          typescriptInterpolation,typescriptTemplateSubstitution
 
 " define custom css elements to not utilize cssDefinition
 syn region cssCustomMediaBlock contained fold transparent matchgroup=cssBraces
