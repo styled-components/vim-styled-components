@@ -99,7 +99,7 @@ syn region styledTagNameString matchgroup=jsString contained
 " define custom API sections that trigger the styledDefinition highlighting
 syn match styledPrefix "\<styled\>\.\k\+"
       \ transparent fold
-      \ nextgroup=styledDefinition
+      \ nextgroup=styledDefinition,styledTypeArguments
       \ contains=cssTagName
       \ containedin=jsFuncBlock
 syn match styledPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})"
@@ -124,6 +124,12 @@ syn match styledTypescriptPrefix
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,typescriptType,
       \          styledTagNameString
+
+syntax region styledTypeArguments matchgroup=typescriptTypeBrackets
+  \ start=/\></ end=/>/
+  \ contains=@typescriptType
+  \ nextgroup=styledDefinition
+  \ contained skipwhite
 
 " define emotion css prop
 " to bypass problems from top-level defined xml/js definitions, this
