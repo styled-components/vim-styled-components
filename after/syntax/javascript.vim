@@ -174,7 +174,7 @@ syn region styledDefinition contained transparent fold extend
       \          cssHacks,
       \          cssCustom.*,
       \          jsComment,jsTemplateExpression,
-      \          typescriptInterpolation,
+      \          typescriptInterpolation,typescriptTemplateSubstitution,
       \          styledAmpersand,styledNestedRegion
 syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition
