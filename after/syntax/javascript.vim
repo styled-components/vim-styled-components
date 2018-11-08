@@ -117,11 +117,12 @@ syn match styledPrefix "\.\<extend\>"
 " annotations (delimited by brackets (e.g. "<>")) between `styled` and
 " the function call parenthesis
 syn match styledTypescriptPrefix
-      \ "\<styled\><\%(\k\|'\|\"\|`\|,\|\s\)\+>(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
+      \ "\<styled\><\%({\|}\||\|&\|:\|;\|,\|'\|\"\|\k\|\s\|\n\)\+>(\%('\k\+'\|\"\k\+\"\))"
       \ transparent fold
       \ nextgroup=styledDefinition
       \ contains=cssTagName,
-      \          typescriptOpSymbols,typescriptEndColons,typescriptParens,
+      \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,typescriptType,
       \          styledTagNameString
 
 " define emotion css prop

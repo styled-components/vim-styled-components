@@ -31,5 +31,47 @@ const StyledSection = styled(Section)`
   align-items: center;
 `;
 
+interface ExistingInterface {
+  someAttribute: boolean;
+}
+
+const InterfaceComponent = styled<ExistingInterface, 'h1'>('h1')`
+  background-color: blue;
+  color: green;
+`;
+
+const InlineInterfaceComponent = styled<
+  someAttribute
+}, 'h1'>('h1')`
+  background-color: white;
+  color: black;
+`;
+
+const InlineInterfaceComponent = styled<{
+  someAttribute: {
+    someNestedAttribute: any;
+  }
+  anotherAttribute: any;
+}, 'h1'>('h1')`
+  background-color: black;
+  color: white;
+`;
+
+const ExtendedInterfaceComponent = styled<ExistingInterface & {
+  someAttribute: {
+    someNestedAttribute: any;
+  }
+  anotherAttribute: any;
+}, 'h1'>('h1')`
+  background-color: hotpink;
+  color: papayawhip;
+`;
+
+const AlternativeInterfaceComponent = styled<ExistingInterface | {
+}, 'h1'>('h1')`
+  background: papayawhip;
+  color: hotpink;
+`;
+
 
 export default StyledSection;
