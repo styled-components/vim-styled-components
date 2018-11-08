@@ -40,14 +40,14 @@ const InterfaceComponent = styled<ExistingInterface, 'h1'>('h1')`
   color: green;
 `;
 
-const InlineInterfaceComponent = styled<
+const InlineInterfaceComponent = styled<{
   someAttribute
 }, 'h1'>('h1')`
   background-color: white;
   color: black;
 `;
 
-const InlineInterfaceComponent = styled<{
+const InlineInterfaceComponent2 = styled<{
   someAttribute: {
     someNestedAttribute: any;
   }
