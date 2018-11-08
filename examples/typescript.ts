@@ -41,7 +41,7 @@ const InterfaceComponent = styled<ExistingInterface, 'h1'>('h1')`
 `;
 
 const InlineInterfaceComponent = styled<{
-  someAttribute
+  someAttribute: any
 }, 'h1'>('h1')`
   background-color: white;
   color: black;
@@ -50,7 +50,7 @@ const InlineInterfaceComponent = styled<{
 const InlineInterfaceComponent2 = styled<{
   someAttribute: {
     someNestedAttribute: any;
-  }
+  };
   anotherAttribute: any;
 }, 'h1'>('h1')`
   background-color: black;
@@ -60,7 +60,7 @@ const InlineInterfaceComponent2 = styled<{
 const ExtendedInterfaceComponent = styled<ExistingInterface & {
   someAttribute: {
     someNestedAttribute: any;
-  }
+  };
   anotherAttribute: any;
 }, 'h1'>('h1')`
   background-color: hotpink;

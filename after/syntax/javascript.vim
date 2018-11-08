@@ -122,7 +122,7 @@ syn match styledTypescriptPrefix
       \ nextgroup=styledDefinition
       \ contains=cssTagName,
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
-      \          typescriptParens,typescriptStringS,typescriptType,
+      \          typescriptParens,typescriptStringS,@typescriptType,typescriptType,
       \          styledTagNameString
 
 " define emotion css prop
