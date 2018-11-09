@@ -9,7 +9,7 @@ const genericTemplateString = `
  * Note: As glamor and emotion use similar APIs, only the extraneous APIs are
  *       mentioned later on.
  */
-import styled, { css, keyframes, createGlobalStyle } from 'styled-components';
+import styled, { css, keyframes, injectGlobal, createGlobalStyle } from 'styled-components';
 
 // match of styled.method api
 // - unmatched cssTagName (note the double typoes and missing highlighting)
@@ -109,6 +109,18 @@ injectGlobal`
     margin: 0;
   }
 `;
+// - createGlobalStyle
+createGlobalStyle`
+  @font-face {
+    font-family: 'Operator Mono';
+    src: url('../fonts/Operator-Mono.ttf');
+  }
+
+  body {
+    margin: 0;
+  }
+`;
+
 // - createGlobalStyle
 createGlobalStyle`
   @font-face {
