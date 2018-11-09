@@ -7,8 +7,8 @@ import styled from 'styled-components';
 
 
 interface SectionProps {
-  children?: React.ReactChild,
-  className?: string,
+  children?: React.ReactChild;
+  className?: string;
 }
 
 

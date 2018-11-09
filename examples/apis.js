@@ -121,18 +121,6 @@ createGlobalStyle`
   }
 `;
 
-// - createGlobalStyle
-createGlobalStyle`
-  @font-face {
-    font-family: 'Operator Mono';
-    src: url('../fonts/Operator-Mono.ttf');
-  }
-
-  body {
-    margin: 0;
-  }
-`;
-
 // class based stylings
 class Container {
   render() {
