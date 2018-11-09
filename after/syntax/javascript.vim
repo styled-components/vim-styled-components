@@ -40,14 +40,14 @@ syn region cssCustomAttrRegion contained
       \          cssString.*,cssURL,cssComment,cssUnicodeEscape,cssVendor,
       \          cssError,cssAttrComma,cssNoise,cssPseudoClassId,
       \          jsTemplateExpression,
-      \          typescriptInterpolation
+      \          typescriptInterpolation,typescriptTemplateSubstitution
 syn region cssCustomAttrRegion contained
       \ start="transition\s*:" end="\ze\%(;\|)\|{\|}\|`\)"
       \ contains=css.*Prop,css.*Attr,cssColor,cssImportant,cssValue.*,
       \          cssFunction,cssString.*,cssURL,cssComment,cssUnicodeEscape,
       \          cssVendor,cssError,cssAttrComma,cssNoise,cssPseudoClassId,
       \          jsTemplateExpression,
-      \          typescriptInterpolation
+      \          typescriptInterpolation,typescriptTemplateSubstitution
 
 " define custom css elements to not utilize cssDefinition
 syn region cssCustomMediaBlock contained fold transparent matchgroup=cssBraces
@@ -117,11 +117,12 @@ syn match styledPrefix "\.\<extend\>"
 " annotations (delimited by brackets (e.g. "<>")) between `styled` and
 " the function call parenthesis
 syn match styledTypescriptPrefix
-      \ "\<styled\><\%(\k\|'\|\"\|`\|,\|\s\)\+>(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
+      \ "\<styled\><\%({\|}\||\|&\|:\|;\|,\|'\|\"\|\k\|\s\|\n\)\+>(\%('\k\+'\|\"\k\+\"\))"
       \ transparent fold
       \ nextgroup=styledDefinition
       \ contains=cssTagName,
-      \          typescriptOpSymbols,typescriptEndColons,typescriptParens,
+      \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,@typescriptType,typescriptType,
       \          styledTagNameString
 
 " define emotion css prop
@@ -173,10 +174,12 @@ syn region styledDefinition contained transparent fold extend
       \          cssHacks,
       \          cssCustom.*,
       \          jsComment,jsTemplateExpression,
-      \          typescriptInterpolation,
+      \          typescriptInterpolation,typescriptTemplateSubstitution,
       \          styledAmpersand,styledNestedRegion
 syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition
+
+syn cluster typescriptValue add=styledPrefix,jsFuncCall,styledTypescriptPrefix
 
 " color the custom highlight elements
 hi def link cssCustomKeyFrameSelector  Constant
