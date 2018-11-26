@@ -100,7 +100,7 @@ syn region styledTagNameString matchgroup=jsString contained
 syn match styledPrefix "\<styled\>\.\k\+"
       \ transparent fold
       \ nextgroup=styledDefinition
-      \ contains=cssTagName
+      \ contains=cssTagName,javascriptTagRef
       \ containedin=jsFuncBlock
 syn match styledPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})"
       \ transparent fold extend
@@ -180,6 +180,21 @@ syn region styledDefinitionArgument contained transparent start=+(+ end=+)+
       \ contains=styledDefinition
 
 syn cluster typescriptValue add=styledPrefix,jsFuncCall,styledTypescriptPrefix
+
+""" yajs specific extensions
+" define template tag keywords, that trigger styledDefinitions again to be
+" contained in and also do contain the `javascriptTagRef` region
+syn match javascriptTagRefStyledPrefix transparent fold
+      \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>\|\<createGlobalStyle\>"
+      \ containedin=javascriptTagRef
+      \ contains=javascriptTagRef
+      \ nextgroup=styledDefinition
+" extend the yajs clusters to include the previously and extraneously defined
+" styled-related matches
+syn cluster javascriptExpression
+      \ add=styledPrefix,jsFuncCall,javascriptTagRefStyledPrefix
+syn cluster javascriptAfterIdentifier add=styledPrefix,jsFuncCall
+
 
 " color the custom highlight elements
 hi def link cssCustomKeyFrameSelector  Constant
