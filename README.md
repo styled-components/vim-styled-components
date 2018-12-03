@@ -9,6 +9,7 @@ Note however, that this plugin does not provide (all existing) CSS rules. You sh
 ## Table of Contents
 
 - [Installation](#installation)
+- [Support](#support)
 - [Caveats](#caveats)
 - [Contributing](#contributing)
 - [Acknowledgements](#acknowledgements)
@@ -45,6 +46,17 @@ Install via:
 Run:
 
     git clone https://github.com/styled-components/vim-styled-components/ ~/.vim/bundle/vim-styled-components
+
+## Support
+
+As vim doesn't supply the most exhaustive javascript and/or typescript support itself most vim users opt for using third party plugins to enhance syntax highlighting and omnicomplete, etc. Some of which might share the syntax definition names, but others doesn't. This fact requires one to go into the details of the syntax definition to makes sure the syntax definitions are correctly supported by this plugin. Please open an issue if you find incompatibilities with any plugins.
+
+This is the list of plugins that are (somewhat) supported:
+
+- [pangloss/vim-javascript](https://github.com/pangloss/vim-javascript) and thus
+  - [sheerun/vim-polyglot](https://github.com/sheerun/vim-polyglot) (which uses former as it's javascript plugin),
+- [othree/yajs.vim](https://github.com/othree/yajs.vim), and
+- [HerringtonDarkholme/yats.vim](https://github.com/HerringtonDarkholme/yats.vim)
 
 ## Caveats
 
