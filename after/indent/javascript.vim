@@ -123,6 +123,7 @@ fu! GetStyledIndent()
     " indentation inside the styled definition region
     return l:baseIndent + l:styledIndent
   elseif len(b:js_ts_indent)
+    let l:result = 0
     let l:offset = 0
 
     " increase indentation by one shiftwidth, if the last line ended on a

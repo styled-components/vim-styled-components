@@ -1,6 +1,6 @@
 # vim-styled-components
 
-Vim bundle for [styled-components](https://styled-components.com), [diet-cola](https://github.com/jxnblk/diet-cola), [emotion](https://github.com/emotion-js/emotion) and experimental [glamor/styled](https://github.com/threepointone/glamor/blob/master/docs/styled.md) content in javascript files.
+Vim bundle for [styled-components](https://styled-components.com), [diet-cola](https://github.com/jxnblk/diet-cola), [emotion](https://github.com/emotion-js/emotion), experimental [glamor/styled](https://github.com/threepointone/glamor/blob/master/docs/styled.md), and [astroturf](https://github.com/4Catalyzer/astroturf) content in javascript files.
 
 After massive issues with the syntax highlighting of the previous version, this newly implemented plugin now only highlights CSS in javascript template strings, if the current APIs of the supported libraries are present. Thus there is no more bleeding of keywords into non-CSS sections of the file.
 
