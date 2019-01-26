@@ -122,7 +122,17 @@ syn match styledTypescriptPrefix
       \ nextgroup=styledDefinition
       \ contains=cssTagName,
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
-      \          typescriptParens,typescriptStringS,@typescriptType,typescriptType,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
+      \          styledTagNameString
+syn match styledTypescriptPrefix
+      \ "\<styled\>\%((\%('\k\+'\|\"\k\+\"\))\|\.\k\+\)<\%({\|}\||\|&\|:\|;\|,\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ transparent fold
+      \ nextgroup=styledDefinition
+      \ contains=cssTagName,
+      \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
       \          styledTagNameString
 
 " define emotion css prop
@@ -156,6 +166,12 @@ syn match jsFuncCall "\<styled\>\s*(.\+)" transparent
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ contains=styledTagNameString
+      \ nextgroup=styledDefinition
+syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))<\%({\|}\||\|&\|:\|;\|,\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ contains=typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
+      \          styledTagNameString
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\.\<withComponent\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ contains=styledTagNameString
