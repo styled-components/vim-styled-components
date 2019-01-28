@@ -117,7 +117,7 @@ syn match styledPrefix "\.\<extend\>"
 " annotations (delimited by brackets (e.g. "<>")) between `styled` and
 " the function call parenthesis
 syn match styledTypescriptPrefix
-      \ "\<styled\><\%({\|}\||\|&\|:\|;\|,\|'\|\"\|\k\|\s\|\n\)\+>(\%('\k\+'\|\"\k\+\"\))"
+      \ "\<styled\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>(\%('\k\+'\|\"\k\+\"\))"
       \ transparent fold
       \ nextgroup=styledDefinition
       \ contains=cssTagName,
@@ -126,7 +126,7 @@ syn match styledTypescriptPrefix
       \          typescriptType,
       \          styledTagNameString
 syn match styledTypescriptPrefix
-      \ "\<styled\>\%((\%('\k\+'\|\"\k\+\"\))\|\.\k\+\)<\%({\|}\||\|&\|:\|;\|,\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ "\<styled\>\%((\%('\k\+'\|\"\k\+\"\))\|\.\k\+\)<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
       \ transparent fold
       \ nextgroup=styledDefinition
       \ contains=cssTagName,
@@ -167,7 +167,7 @@ syn match jsFuncCall "\<styled\>\s*(.\+)" transparent
 syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ contains=styledTagNameString
       \ nextgroup=styledDefinition
-syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))<\%({\|}\||\|&\|:\|;\|,\|'\|\"\|\k\|\s\|\n\)\+>"
+syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
       \ contains=typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,@typescriptType,
       \          typescriptType,

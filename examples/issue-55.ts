@@ -14,7 +14,7 @@ const A = styled('h1')<Foo>`
   padding: 0;
 `;
 
-const B = styled('h1')<{ bool: boolean }>`
+const B = styled('h1')<{ [attr: string]: any, bool: boolean, tmp?: number }>`
   background-color: ${props => props.bool ? props.theme.primary : props.theme.seconday};
   color: ${props => props.bool ? props.theme.seconday : props.theme.tertiary};
   display: flex;
@@ -41,7 +41,7 @@ const D = styled.h1<Foo>`
   padding: 0;
 `;
 
-const E = styled.h1<{ bool: boolean }>`
+const E = styled.h1<{ [attr: string]: any, bool: boolean, tmp?: number }>`
   background-color: ${props => props.bool ? props.theme.primary : props.theme.seconday};
   color: ${props => props.bool ? props.theme.seconday : props.theme.tertiary};
   display: flex;
