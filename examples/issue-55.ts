@@ -49,3 +49,12 @@ const E = styled.h1<{ [attr: string]: any, bool: boolean, tmp?: number }>`
   flex: 1 0 auto;
   padding: 0;
 `;
+
+const F = styled.span<Foo>`
+  background-color: ${props => props.bool ? props.theme.primary : props.theme.seconday};
+  color: ${props => props.bool ? props.theme.seconday : props.theme.tertiary};
+  display: flex;
+  flex-direction: row;
+  flex: 1 0 auto;
+  padding: 0;
+`;
