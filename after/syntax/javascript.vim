@@ -227,6 +227,12 @@ syn cluster javascriptExpression
       \ add=styledPrefix,jsFuncCall,javascriptTagRefStyledPrefix
 syn cluster javascriptAfterIdentifier add=styledPrefix,jsFuncCall
 
+""" yats specific extensions
+" extend typescriptIdentifierName to allow styledDefinitions in their
+" tagged templates
+syn match typescriptIdentifierName extend
+      \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>\|\<createGlobalStyle\>"
+      \ nextgroup=styledDefinition
 
 " color the custom highlight elements
 hi def link cssCustomKeyFrameSelector  Constant
