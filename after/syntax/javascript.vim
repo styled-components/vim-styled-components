@@ -134,6 +134,22 @@ syn match styledTypescriptPrefix
       \          typescriptParens,typescriptStringS,@typescriptType,
       \          typescriptType,
       \          styledTagNameString
+syn match styledTypescriptPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ transparent fold extend
+      \ nextgroup=styledDefinition
+      \ contains=cssTagName,
+      \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
+      \          styledTagNameString
+syn match styledTypescriptPrefix "\.\<extend\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ transparent fold extend
+      \ nextgroup=styledDefinition
+      \ contains=cssTagName,
+      \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
+      \          styledTagNameString
 
 " define emotion css prop
 " to bypass problems from top-level defined xml/js definitions, this
