@@ -117,12 +117,38 @@ syn match styledPrefix "\.\<extend\>"
 " annotations (delimited by brackets (e.g. "<>")) between `styled` and
 " the function call parenthesis
 syn match styledTypescriptPrefix
-      \ "\<styled\><\%({\|}\||\|&\|:\|;\|,\|'\|\"\|\k\|\s\|\n\)\+>(\%('\k\+'\|\"\k\+\"\))"
+      \ "\<styled\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>(\%('\k\+'\|\"\k\+\"\|\k\+\))"
       \ transparent fold
       \ nextgroup=styledDefinition
       \ contains=cssTagName,
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
-      \          typescriptParens,typescriptStringS,@typescriptType,typescriptType,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
+      \          styledTagNameString
+syn match styledTypescriptPrefix
+      \ "\<styled\>\%((\%('\k\+'\|\"\k\+\"\|\k\+\))\|\.\k\+\)<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ transparent fold
+      \ nextgroup=styledDefinition
+      \ contains=cssTagName,
+      \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
+      \          styledTagNameString
+syn match styledTypescriptPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ transparent fold extend
+      \ nextgroup=styledDefinition
+      \ contains=cssTagName,
+      \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
+      \          styledTagNameString
+syn match styledTypescriptPrefix "\.\<extend\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ transparent fold extend
+      \ nextgroup=styledDefinition
+      \ contains=cssTagName,
+      \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
       \          styledTagNameString
 
 " define emotion css prop
@@ -156,6 +182,12 @@ syn match jsFuncCall "\<styled\>\s*(.\+)" transparent
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ contains=styledTagNameString
+      \ nextgroup=styledDefinition
+syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ contains=typescriptBraces,typescriptOpSymbols,typescriptEndColons,
+      \          typescriptParens,typescriptStringS,@typescriptType,
+      \          typescriptType,
+      \          styledTagNameString
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\.\<withComponent\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ contains=styledTagNameString
@@ -195,6 +227,12 @@ syn cluster javascriptExpression
       \ add=styledPrefix,jsFuncCall,javascriptTagRefStyledPrefix
 syn cluster javascriptAfterIdentifier add=styledPrefix,jsFuncCall
 
+""" yats specific extensions
+" extend typescriptIdentifierName to allow styledDefinitions in their
+" tagged templates
+syn match typescriptIdentifierName extend
+      \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>\|\<createGlobalStyle\>"
+      \ nextgroup=styledDefinition
 
 " color the custom highlight elements
 hi def link cssCustomKeyFrameSelector  Constant
