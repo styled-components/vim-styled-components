@@ -8,7 +8,10 @@ fun! styledcomplete#CompleteSC(findstart, base)
     return csscomplete#CompleteCSS(a:findstart, a:base)
   endif
 
-  " create a funcref to call with the previous omnicomplete function
-  let s:funcref = function(b:prevofu)
-  return s:funcref(a:findstart, a:base)
+  " Only trigger original omnifunc if it was set in the first place
+  if exists('b:prevofu')
+    " create a funcref to call with the previous omnicomplete function
+    let s:funcref = function(b:prevofu)
+    return s:funcref(a:findstart, a:base)
+  endif
 endfun
