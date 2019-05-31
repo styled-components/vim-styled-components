@@ -101,7 +101,7 @@ syn match styledPrefix "\<styled\>\.\k\+"
       \ transparent fold
       \ nextgroup=styledDefinition
       \ contains=cssTagName,javascriptTagRef
-      \ containedin=jsFuncBlock
+      \ containedin=jsFuncBlock,jsParen
 syn match styledPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})"
       \ transparent fold extend
       \ nextgroup=styledDefinition
