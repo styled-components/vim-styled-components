@@ -101,16 +101,16 @@ syn match styledPrefix "\<styled\>\.\k\+"
       \ transparent fold
       \ nextgroup=styledDefinition
       \ contains=cssTagName,javascriptTagRef
-      \ containedin=jsFuncBlock
+      \ containedin=jsFuncBlock,jsParen
 syn match styledPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})"
       \ transparent fold extend
       \ nextgroup=styledDefinition
       \ contains=jsObject,jsParen
-      \ containedin=jsFuncBlock
+      \ containedin=jsFuncBlock,jsParen
 syn match styledPrefix "\.\<extend\>"
       \ transparent fold
       \ nextgroup=styledDefinition
-      \ containedin=jsFuncBlock
+      \ containedin=jsFuncBlock,jsParen
 
 " define custom API section, that contains typescript annotations
 " this is structurally similar to `jsFuncCall`, but allows type
