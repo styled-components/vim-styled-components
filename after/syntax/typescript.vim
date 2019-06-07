@@ -1,1 +1,1 @@
-javascript.vim
+runtime! syntax/javascript.vim
