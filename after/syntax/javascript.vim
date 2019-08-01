@@ -101,16 +101,16 @@ syn match styledPrefix "\<styled\>\.\k\+"
       \ transparent fold
       \ nextgroup=styledDefinition
       \ contains=cssTagName,javascriptTagRef
-      \ containedin=jsFuncBlock,jsParen
+      \ containedin=jsFuncBlock,jsParen,jsObject,jsObjectValue
 syn match styledPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})"
       \ transparent fold extend
       \ nextgroup=styledDefinition
       \ contains=jsObject,jsParen
-      \ containedin=jsFuncBlock,jsParen
+      \ containedin=jsFuncBlock,jsParen,jsObject,jsObjectValue
 syn match styledPrefix "\.\<extend\>"
       \ transparent fold
       \ nextgroup=styledDefinition
-      \ containedin=jsFuncBlock,jsParen
+      \ containedin=jsFuncBlock,jsParen,jsObject,jsObjectValue
 
 " define custom API section, that contains typescript annotations
 " this is structurally similar to `jsFuncCall`, but allows type
@@ -118,22 +118,24 @@ syn match styledPrefix "\.\<extend\>"
 " the function call parenthesis
 syn match styledTypescriptPrefix
       \ "\<styled\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>(\%('\k\+'\|\"\k\+\"\|\k\+\))"
-      \ transparent fold
+      \ transparent fold extend
       \ nextgroup=styledDefinition
       \ contains=cssTagName,
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,@typescriptType,
       \          typescriptType,
       \          styledTagNameString
+      \ containedin=foldBraces
 syn match styledTypescriptPrefix
       \ "\<styled\>\%((\%('\k\+'\|\"\k\+\"\|\k\+\))\|\.\k\+\)<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
-      \ transparent fold
+      \ transparent fold extend
       \ nextgroup=styledDefinition
       \ contains=cssTagName,
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,@typescriptType,
       \          typescriptType,
       \          styledTagNameString
+      \ containedin=foldBraces
 syn match styledTypescriptPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
       \ transparent fold extend
       \ nextgroup=styledDefinition
@@ -142,6 +144,7 @@ syn match styledTypescriptPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})<\%(\[\|\]\|
       \          typescriptParens,typescriptStringS,@typescriptType,
       \          typescriptType,
       \          styledTagNameString
+      \ containedin=foldBraces
 syn match styledTypescriptPrefix "\.\<extend\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
       \ transparent fold extend
       \ nextgroup=styledDefinition
@@ -150,6 +153,7 @@ syn match styledTypescriptPrefix "\.\<extend\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?
       \          typescriptParens,typescriptStringS,@typescriptType,
       \          typescriptType,
       \          styledTagNameString
+      \ containedin=foldBraces
 
 " define emotion css prop
 " to bypass problems from top-level defined xml/js definitions, this
@@ -189,6 +193,7 @@ syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))<\%(\[\|\]\|{\
       \          typescriptType,
       \          styledTagNameString
       \ nextgroup=styledDefinition
+      \ containedin=foldBraces
 syn match jsFuncCall "\.\<withComponent\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))"
       \ contains=styledTagNameString
 syn match jsFuncCall "\<dc\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))\%((\)\@="
