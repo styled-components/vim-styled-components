@@ -176,7 +176,7 @@ syn match cssError contained "{@<>"
 
 " extend javascript matches to trigger styledDefinition highlighting
 syn match jsTaggedTemplate extend
-      \ "\<css\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>\|\<createGlobalStyle\>"
+      \ "\<css\>\|\.\<resolve\>\|\.\<global\>\|\<keyframes\>\|\<injectGlobal\>\|\<fontFace\>\|\<createGlobalStyle\>"
       \ nextgroup=styledDefinition
 syn match jsFuncCall "\<styled\>\s*(.\+)" transparent
       \ nextgroup=styledDefinition
