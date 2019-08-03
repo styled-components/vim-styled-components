@@ -11,7 +11,7 @@ syn match styledTypescriptPrefix
       \ contains=cssTagName,
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,@typescriptType,
-      \          typescriptType,
+      \          typescriptType,foldBraces,
       \          styledTagNameString
       \ containedin=foldBraces
 syn match styledTypescriptPrefix
@@ -21,7 +21,7 @@ syn match styledTypescriptPrefix
       \ contains=cssTagName,
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,@typescriptType,
-      \          typescriptType,
+      \          typescriptType,foldBraces,
       \          styledTagNameString
       \ containedin=foldBraces
 syn match styledTypescriptPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
@@ -30,7 +30,7 @@ syn match styledTypescriptPrefix "\.\<attrs\>\s*(\%(\n\|\s\|.\)\{-})<\%(\[\|\]\|
       \ contains=cssTagName,
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,@typescriptType,
-      \          typescriptType,
+      \          typescriptType,foldBraces,
       \          styledTagNameString
       \ containedin=foldBraces
 syn match styledTypescriptPrefix "\.\<extend\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
@@ -39,14 +39,14 @@ syn match styledTypescriptPrefix "\.\<extend\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?
       \ contains=cssTagName,
       \          typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,@typescriptType,
-      \          typescriptType,
+      \          typescriptType,foldBraces,
       \          styledTagNameString
       \ containedin=foldBraces
 
 syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
       \ contains=typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,@typescriptType,
-      \          typescriptType,
+      \          typescriptType,foldBraces,
       \          styledTagNameString
       \ nextgroup=styledDefinition
       \ containedin=foldBraces
