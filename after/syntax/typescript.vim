@@ -44,6 +44,7 @@ syn match styledTypescriptPrefix "\.\<extend\><\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?
       \ containedin=foldBraces
 
 syn match jsFuncCall "\<styled\>\s*(\%('\k\+'\|\"\k\+\"\|`\k\+`\))<\%(\[\|\]\|{\|}\||\|&\|:\|;\|,\|?\|'\|\"\|\k\|\s\|\n\)\+>"
+      \ transparent fold
       \ contains=typescriptBraces,typescriptOpSymbols,typescriptEndColons,
       \          typescriptParens,typescriptStringS,@typescriptType,
       \          typescriptType,foldBraces,
