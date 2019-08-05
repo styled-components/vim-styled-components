@@ -60,6 +60,8 @@ This is the list of plugins that are (somewhat) supported:
 
 ## Caveats
 
+### Specificity of styling APIs
+
 As only the official APIs are supported and they are necessary to indicate highlighting sections in your javascript file, renaming of the appropriate functions or externally defining the CSS rules in template strings will lead to missing highlighting. This means the following will not be correctly highlighted:
 
 ```javascript
@@ -83,6 +85,17 @@ const mainStyles = `
 
 const Button = styled('h1')(mainStyles);
 ```
+
+### Breaking syntax highlighting in very long files
+
+Syntax highlighting in vim works by comparing a list of previous lines to determine the current line's syntax items. For very long files the list of previous lines can exceed the maximum threshold. If this is the case for you, you can opt in to trade off quality with speed for syntax highlighting:
+
+```vim
+autocmd BufEnter *.{js,jsx,ts,tsx} :syntax sync fromstart
+autocmd BufLeave *.{js,jsx,ts,tsx} :syntax sync clear
+```
+
+Note: Use at own risk! The first line will make vim consider all lines in the file for syntax highlighting if it encounters a javascript/typescript file, the second one will reset this value if it leaves the buffer again. (This will also reset previously set syntax-syncing settings, that you or other plugins might have set.)
 
 ## Contributing
 
