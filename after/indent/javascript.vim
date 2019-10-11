@@ -146,14 +146,20 @@ fu! GetStyledIndent()
     " `is_recursion` being 0 at this point indicates, that
     " `eval(b:js_ts_indent)` did itself evaluate it's stored indentexpr
     " and thus it can be assumed, that the current line should be
-    " indented as JS
+    " indented as JS/TS
     if s:is_recursion == 0
-      " use one of `GetJavascriptIndent` or `GetJsIndent` if existing
+      " use one of existing indent expressions if available
       " fallback to cindent, if not
-      if exists('*GetJavascriptIndent')
-        let l:result = GetJavascriptIndent()
+      if exists('*GetTsxIndent')
+        let l:result = GetTsxIndent()
+      elseif exists('*GetTypescriptIndent')
+        let l:result = GetTypescriptIndent()
+      elseif exists('*GetJsxIndent')
+        let l:result = GetJsxIndent()
       elseif exists('*GetJsIndent')
         let l:result = GetJsIndent()
+      elseif exists('*GetJavascriptIndent')
+        let l:result = GetJavascriptIndent()
       else
         let l:result = cindent(v:lnum)
       endif
