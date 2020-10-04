@@ -1,3 +1,5 @@
+### _**This project is not currently maintained.** If you'd like to help, or for further info, see [#77](https://github.com/styled-components/vim-styled-components/issues/77)_
+
 # vim-styled-components
 
 Vim bundle for [styled-components](https://styled-components.com), [diet-cola](https://github.com/jxnblk/diet-cola), [emotion](https://github.com/emotion-js/emotion), experimental [glamor/styled](https://github.com/threepointone/glamor/blob/master/docs/styled.md), and [astroturf](https://github.com/4Catalyzer/astroturf) content in javascript files.
