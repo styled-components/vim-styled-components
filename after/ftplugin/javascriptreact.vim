@@ -1,1 +1,1 @@
-runtime! ftplugin/javascript.vim
+source <sfile>:p:h/javascript.vim
