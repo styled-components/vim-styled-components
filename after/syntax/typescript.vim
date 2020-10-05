@@ -1,4 +1,4 @@
-runtime! syntax/javascript.vim
+source <sfile>:p:h/javascript.vim
 
 " define custom API section, that contains typescript annotations
 " this is structurally similar to `jsFuncCall`, but allows type

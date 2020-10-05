@@ -1,1 +1,1 @@
-runtime! ftplugin/typescript.vim
+source <sfile>:p:h/typescript.vim

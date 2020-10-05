@@ -1,1 +1,1 @@
-runtime! syntax/typescript.vim
+source <sfile>:p:h/typescript.vim
