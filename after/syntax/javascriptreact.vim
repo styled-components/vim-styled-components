@@ -1,1 +1,1 @@
-runtime! syntax/javascript.vim
+source <sfile>:p:h/javascript.vim
